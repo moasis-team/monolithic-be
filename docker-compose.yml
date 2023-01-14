@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+  mariadb:
+    image: mariadb:10.2
+    environment:
+      MYSQL_ROOT_PASSWORD: hottj
+      MYSQL_DATABASE: moasis
+      MYSQL_USER: hottj
+      MYSQL_PASSWORD: hottj
+    ports:
+      - 3306:3306
+    networks:
+      - moasis-net
+    restart: on-failure
+    volumes:
+      - ${PWD}/mariadb:/var/lib/mysql
+
+networks:
+  moasis-net:
+    driver: bridge
