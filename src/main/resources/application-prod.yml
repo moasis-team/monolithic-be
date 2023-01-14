@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:${DB}://${HOST}:${PORT}/${NAME}?createDatabaseIfNotExist=true
+    username: ${USER}
+    password: ${PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: ${DDL-AUTO}
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
