@@ -180,6 +180,9 @@ $RECYCLE.BIN/
 **/build/
 !src/**/build/
 
+### Mariadb
+mariadb/**
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
