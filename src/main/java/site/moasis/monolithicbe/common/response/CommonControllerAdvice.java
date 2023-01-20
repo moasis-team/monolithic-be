@@ -3,7 +3,6 @@ package site.moasis.monolithicbe.common.response;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
-import org.slf4j.MDC;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import site.moasis.monolithicbe.common.exception.BaseException;
+
 import java.util.List;
 
 @Slf4j
@@ -33,6 +33,7 @@ public class CommonControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public CommonResponse onException(Exception e) {
+	    e.printStackTrace();
         return CommonResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR);
     }
 
