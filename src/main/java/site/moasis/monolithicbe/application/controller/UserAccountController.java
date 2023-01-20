@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
 import site.moasis.monolithicbe.domain.useraccount.JwtFilter;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
@@ -31,6 +28,15 @@ public class UserAccountController {
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token.getAccessToken());
 		return new ResponseEntity<>(token, httpHeaders, HttpStatus.OK);
+	}
+
+	// GET /users
+	// 토큰이 잘 작동하는지 확인하는 테스트용 라우터
+	// 헤더에 토큰을 담았을때 이 라우터에 잘 들어오게 되면 토큰이 잘 작동하는 것
+	// 편의를 위한 것이니 없어도 상관없음.
+	@GetMapping()
+	void authTest(){
+		System.out.println("succ가ess");
 	}
 
 	@PostMapping()
