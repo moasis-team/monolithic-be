@@ -5,12 +5,12 @@ import site.moasis.monolithicbe.domain.comment.entity.Comment;
 import java.util.*;
 
 public class CommentDto {
-    public record commentCreateDto(String content, Long articleId, Long userId) {
+    public static record CommentCreateDto(String content, Long articleId, Long userId) {
     }
 
-    public record commentOneDto(Optional<Comment> comment) {
+    public static record CommentOneDto(Optional<Comment> comment) {
     }
 
-    public record commentResponseDto(List<Comment> commentList) {
+    public static record CommentResponseDto(List<Comment> commentList) {
     }
 }
