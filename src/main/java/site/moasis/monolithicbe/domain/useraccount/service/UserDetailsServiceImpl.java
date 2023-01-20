@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
-import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			return User.builder()
 					.username(userAccount.getEmail())
 					.password(userAccount.getPassword())
-					.authorities(Collections.emptyList())
+					.authorities(String.valueOf(userAccount.getRole()))
 					.build();
 		} catch (Exception e) {
 			e.printStackTrace();

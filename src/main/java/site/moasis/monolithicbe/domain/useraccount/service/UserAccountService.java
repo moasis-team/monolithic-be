@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
 import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
+import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
@@ -40,7 +41,8 @@ public class UserAccountService {
 				userAccountJoinRequestDto.email(),
 				passwordEncoder.encode(userAccountJoinRequestDto.password()),
 				userAccountJoinRequestDto.name(),
-				userAccountJoinRequestDto.phoneNumber()
+				userAccountJoinRequestDto.phoneNumber(),
+				UserRole.ROLE_USER
 		);
 
 		return userAccountRepository.save(userAccount);
