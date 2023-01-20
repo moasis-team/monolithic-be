@@ -3,6 +3,7 @@ package site.moasis.monolithicbe.domain.useraccount.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.moasis.monolithicbe.domain.useraccount.UserRole;
 
 @NoArgsConstructor
 @Getter
@@ -18,15 +19,17 @@ public class UserAccount {
 	private String password;
 	private String name;
 	private String phoneNumber;
+	private UserRole role;
 
-	private UserAccount(String email, String password, String name, String phoneNumber) {
+	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.phoneNumber = phoneNumber;
+		this.role = role;
 	}
 
-	public static UserAccount create(String email, String password, String name, String phoneNumber) {
-		return new UserAccount(email, password, name, phoneNumber);
+	public static UserAccount create(String email, String password, String name, String phoneNumber, UserRole role) {
+		return new UserAccount(email, password, name, phoneNumber, role);
 	}
 }
