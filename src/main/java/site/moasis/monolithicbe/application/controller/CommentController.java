@@ -11,7 +11,7 @@ import site.moasis.monolithicbe.domain.comment.service.CommentWriteService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 @Tag(name = "CommentController", description = "댓글을 각 속성 값으로 조회 하고 생성, 삭제 가능하다")
 public class CommentController {
 
@@ -20,33 +20,33 @@ public class CommentController {
 
     @GetMapping("/id/{commentId}")
     @Operation(summary = "id를 통한 댓글 단건 조회")
-    public CommentDto.commentOneDto retrieveComment(@PathVariable Long commentId){
-        return readService.retrieveCommentById(commentId);
+    public CommonResponse<?> retrieveComment(@PathVariable Long commentId){
+        return CommonResponse.success(readService.retrieveCommentById(commentId));
     }
 
     @GetMapping("/user/{userId}")
     @Operation(summary = "user_id를 통한 댓글 조회")
-    public CommentDto.commentResponseDto retrieveCommentsByUserId(@PathVariable Long userId){
-        return readService.retrieveCommentByUserId(userId);
+    public CommonResponse<?> retrieveCommentsByUserId(@PathVariable Long userId){
+        return CommonResponse.success(readService.retrieveCommentByUserId(userId));
     }
 
     @GetMapping("/article/{articleId}")
     @Operation(summary = "article_id를 통한 댓글 조회")
-    public CommentDto.commentResponseDto retrieveCommentsByArticleId(@PathVariable Long articleId){
-        return readService.retrieveCommentByArticleId(articleId);
+    public CommonResponse<?> retrieveCommentsByArticleId(@PathVariable Long articleId){
+        return CommonResponse.success(readService.retrieveCommentByArticleId(articleId));
     }
 
     @PostMapping("/")
     @Operation(summary = "댓글 생성")
-    public CommonResponse<String> createComment(CommentDto.commentCreateDto dto){
-        writeService.createComment(dto);
+    public CommonResponse<?> createComment(CommentDto.commentCreateDto commentCreateDto){
+        writeService.createComment(commentCreateDto);
         return CommonResponse.success("댓글 생성 완료");
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/id/{commentId}")
     @Operation(summary = "id를 통한 댓글 삭제")
-    public CommonResponse<?> deleteComment(Long id){
-        writeService.deleteComment(id);
+    public CommonResponse<?> deleteComment(@PathVariable Long commentId){
+        writeService.deleteComment(commentId);
         return CommonResponse.success("댓글 삭제 완료");
     }
 }
