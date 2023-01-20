@@ -36,7 +36,7 @@ public class CommentController {
         return CommonResponse.success(readService.retrieveCommentByArticleId(articleId));
     }
 
-    @PostMapping("/")
+    @PostMapping("/id")
     @Operation(summary = "댓글 생성")
     public CommonResponse<?> createComment(CommentDto.commentCreateDto commentCreateDto){
         writeService.createComment(commentCreateDto);
