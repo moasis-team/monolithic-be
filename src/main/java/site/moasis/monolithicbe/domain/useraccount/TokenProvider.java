@@ -35,7 +35,6 @@ public class TokenProvider {
 		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
 		//시크릿 값을 decode해서 키 변수에 할당
 		byte[] keyBytes = Decoders.BASE64.decode(secret);
-		System.out.println("keyBytes = " + Arrays.toString(keyBytes));
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 
 	}
