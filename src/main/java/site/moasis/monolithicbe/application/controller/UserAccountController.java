@@ -6,12 +6,16 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import site.moasis.monolithicbe.common.response.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
 import site.moasis.monolithicbe.domain.useraccount.JwtFilter;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
+import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInRequestDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountService;
+
+import java.net.URI;
 
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -40,7 +44,10 @@ public class UserAccountController {
 	}
 
 	@PostMapping()
-	public UserAccount join(@RequestBody UserAccountJoinRequestDto userAccountJoinRequestDto) {
-		return userAccountService.create(userAccountJoinRequestDto);
+	public ResponseEntity<CommonResponse<UserAccountJoinResponseDto>> join(@RequestBody UserAccountJoinRequestDto userAccountJoinRequestDto) {
+		UserAccount savedUserAccount = userAccountService.signUp(userAccountJoinRequestDto);
+		return ResponseEntity.created(URI.create("/users/" + savedUserAccount.getId())).body(
+				CommonResponse.success(UserAccountJoinResponseDto.toDto(savedUserAccount), "User Created")
+		);
 	}
 }

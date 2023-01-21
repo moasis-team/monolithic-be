@@ -36,7 +36,7 @@ public class UserAccountService {
 
 
 	@Transactional
-	public UserAccount create(UserAccountJoinRequestDto userAccountJoinRequestDto) {
+	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
 		UserAccount userAccount = UserAccount.create(
 				userAccountJoinRequestDto.email(),
 				passwordEncoder.encode(userAccountJoinRequestDto.password()),
