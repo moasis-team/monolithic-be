@@ -8,6 +8,8 @@ import site.moasis.monolithicbe.common.exception.EntityNotFoundException;
 import site.moasis.monolithicbe.domain.comment.entity.Comment;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
 
+import java.util.UUID;
+
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentCreateDto;
 
 @Slf4j
@@ -18,7 +20,7 @@ public class CommentWriteService{
 
     private final CommentRepository commentRepository;
 
-    public Long insertOne(CommentCreateDto commentCreateDto){
+    public UUID insertOne(CommentCreateDto commentCreateDto){
         var commentEntity = Comment.builder()
                 .content(commentCreateDto.content())
                 .articleId(commentCreateDto.articleId())
@@ -28,7 +30,7 @@ public class CommentWriteService{
         return commentEntity.getId();
     }
 
-    public Long dropOne(Long commentId){
+    public UUID dropOne(UUID commentId){
         commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
         commentRepository.deleteById(commentId);
         return commentId;

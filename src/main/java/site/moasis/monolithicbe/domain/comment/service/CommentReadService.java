@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.EntityNotFoundException;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
 import java.util.Optional;
+import java.util.UUID;
+
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentResponseDto;
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentOneDto;
 
@@ -20,7 +22,7 @@ public class CommentReadService{
         return new CommentResponseDto(commentRepository.findAll());
     }
 
-    public CommentOneDto selectOne(Long commentId){
+    public CommentOneDto selectOne(UUID commentId){
         return new CommentOneDto(
                 Optional.ofNullable(commentRepository.findById(commentId)
                         .orElseThrow(EntityNotFoundException::new)));
