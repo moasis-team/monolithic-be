@@ -24,16 +24,16 @@ public class Comment {
 
     @Column
     @NonNull
-    private Long articleId;
+    private UUID articleId;
 
     @Column
     @NonNull
-    private Long userId;
+    private UUID userId;
     @Column
     private Boolean isDeleted = false;
 
     @Builder
-    public Comment(String content, Long articleId, Long userId) {
+    public Comment(String content, UUID articleId, UUID userId) {
         this.content = content;
         this.articleId = articleId;
         this.userId = userId;

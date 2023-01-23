@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.EntityNotFoundException;
 import site.moasis.monolithicbe.domain.comment.entity.Comment;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
+import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 
 import java.util.UUID;
 
@@ -20,14 +21,14 @@ public class CommentWriteService{
 
     private final CommentRepository commentRepository;
 
-    public UUID insertOne(CommentCreateDto commentCreateDto){
-        var commentEntity = Comment.builder()
-                .content(commentCreateDto.content())
-                .articleId(commentCreateDto.articleId())
-                .userId(commentCreateDto.userId())
+    public CommentInfo registerComment(CommentCommand.RegisterCommentCommand registerCommentCommand){
+        var comment = Comment.builder()
+                .content(registerCommentCommand.getContent())
+                .articleId(registerCommentCommand.getArticleId())
+                .userId(registerCommentCommand.getUserId())
                 .build();
-        commentRepository.save(commentEntity);
-        return commentEntity.getId();
+
+        return CommentInfoMapper.INSTANCE.toCommentInfo(commentRepository.save(comment));
     }
 
     public UUID dropOne(UUID commentId){
