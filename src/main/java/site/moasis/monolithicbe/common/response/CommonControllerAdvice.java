@@ -33,7 +33,7 @@ public class CommonControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public CommonResponse onException(Exception e) {
-	    e.printStackTrace();
+        log.warn("[INTERNAL_SERVER_ERROR] errorMsg = {}",  NestedExceptionUtils.getMostSpecificCause(e).getMessage());
         return CommonResponse.fail(ErrorCode.COMMON_SYSTEM_ERROR);
     }
 
