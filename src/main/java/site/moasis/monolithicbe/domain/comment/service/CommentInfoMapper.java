@@ -11,5 +11,6 @@ public interface CommentInfoMapper {
     CommentInfoMapper INSTANCE = Mappers.getMapper(CommentInfoMapper.class);
 
     @Mapping(target = "commentId", source = "comment.id")
+    @Mapping(target = "createdAt", source = "comment.createdAt")
     CommentInfo toCommentInfo(Comment comment);
 }
