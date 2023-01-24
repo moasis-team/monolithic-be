@@ -11,9 +11,8 @@ import site.moasis.monolithicbe.domain.useraccount.UserRole;
 public class UserAccount {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
 	@Column(unique = true)
 	private String email;
 	private String password;
