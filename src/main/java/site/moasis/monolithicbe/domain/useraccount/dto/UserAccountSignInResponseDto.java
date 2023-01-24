@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.domain.useraccount;
+package site.moasis.monolithicbe.domain.useraccount.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseSignIn {
+public class UserAccountSignInResponseDto {
 	private String accessToken;
 }
