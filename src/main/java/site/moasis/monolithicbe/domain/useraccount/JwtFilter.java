@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,17 +15,13 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 public class JwtFilter extends GenericFilterBean {
 
-	private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
-
 	public static final String AUTHORIZATION_HEADER = "Authorization";
-
+	private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
 	private final TokenProvider tokenProvider;
 
-	public JwtFilter(TokenProvider tokenProvider) {
-		this.tokenProvider = tokenProvider;
-	}
 
 	// 실제 필터링 로직은 doFilter 안에 들어가게 된다. GenericFilterBean을 받아 구현
 	// Dofilter는 토큰의 인증정보를 SecurityContext 안에 저장하는 역할 수행
@@ -33,7 +30,6 @@ public class JwtFilter extends GenericFilterBean {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		System.out.println("doFilter");
 		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
 		String jwt = resolveToken(httpServletRequest);
 		String requestURI = httpServletRequest.getRequestURI();

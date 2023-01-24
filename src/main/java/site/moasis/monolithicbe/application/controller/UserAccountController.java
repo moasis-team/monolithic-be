@@ -2,16 +2,14 @@ package site.moasis.monolithicbe.application.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.common.response.CommonResponse;
-import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
-import site.moasis.monolithicbe.domain.useraccount.JwtFilter;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInRequestDto;
+import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountService;
 
@@ -26,12 +24,9 @@ public class UserAccountController {
 
 
 	@PostMapping("/signin") // Account 인증 API
-	public ResponseEntity<ResponseSignIn> authorize(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
-		ResponseSignIn token = userAccountService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
-		// response header 에도 넣고 응답 객체에도 넣는다.
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + token.getAccessToken());
-		return new ResponseEntity<>(token, httpHeaders, HttpStatus.OK);
+	public ResponseEntity<CommonResponse<?>> authorize(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
+		UserAccountSignInResponseDto token = userAccountService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(token, "로그인완료"));
 	}
 
 	// GET /users
