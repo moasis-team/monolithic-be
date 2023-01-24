@@ -20,10 +20,8 @@ import java.util.stream.Collectors;
 // 토큰 생성, 검증
 public class TokenProvider {
 
-	protected final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-
 	protected static final String AUTHORITIES_KEY = "auth";
-
+	protected final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
 	protected final String secret;
 	protected final long tokenValidityInMilliseconds;
 
