@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		return userAccountRepository.findOneByEmail(email).map(this::createUserDetails).orElseThrow(() -> {
+		return userAccountRepository.findByEmail(email).map(this::createUserDetails).orElseThrow(() -> {
 			throw new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다.");
 		});
 	}
