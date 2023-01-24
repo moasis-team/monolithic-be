@@ -26,7 +26,7 @@ public class UserAccountController {
 	@PostMapping("/signin") // Account 인증 API
 	public ResponseEntity<CommonResponse<?>> authorize(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
 		UserAccountSignInResponseDto token = userAccountService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(token, "로그인완료"));
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(token, "로그인 완료"));
 	}
 
 	// GET /users
@@ -35,7 +35,7 @@ public class UserAccountController {
 	// 편의를 위한 것이니 없어도 상관없음.
 	@GetMapping()
 	void authTest(){
-		System.out.println("succ가ess");
+		System.out.println("success");
 	}
 
 	@PostMapping()
