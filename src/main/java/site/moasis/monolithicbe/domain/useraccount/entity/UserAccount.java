@@ -19,6 +19,7 @@ public class UserAccount {
 	private String password;
 	private String name;
 	private String phoneNumber;
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
 	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
