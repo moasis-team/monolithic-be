@@ -1,20 +1,41 @@
 package site.moasis.monolithicbe.domain.comment.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import java.util.UUID;
 
-@Entity
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@SQLDelete(sql = "UPDATE comment SET is_deleted=true WHERE comment_id = ?")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
+    @EqualsAndHashCode.Include
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "comment_id", columnDefinition = "BINARY(16)")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
+
+    @Column
     private String content;
-    private Long articleId;
-    private Long userId;
+
+    @Column
+    @NonNull
+    private UUID articleId;
+
+    @Column
+    @NonNull
+    private UUID userId;
+    @Column
+    private Boolean isDeleted = false;
+
+    @Builder
+    public Comment(String content, UUID articleId, UUID userId) {
+        this.content = content;
+        this.articleId = articleId;
+        this.userId = userId;
+    }
 }

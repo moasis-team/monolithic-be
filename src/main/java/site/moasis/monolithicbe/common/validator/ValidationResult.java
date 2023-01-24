@@ -1,9 +1,6 @@
 package site.moasis.monolithicbe.common.validator;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -31,6 +28,7 @@ public class ValidationResult {
     @Setter
     @Getter
     @AllArgsConstructor
+    @Builder
     public static class FieldErrorDetail {
         private String objectName;
         private String field;
