@@ -1,6 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -8,10 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
 import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 
@@ -24,8 +25,18 @@ public class UserAccountService {
 	private final TokenProvider tokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
+
+	@Autowired
+	public UserAccountService(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserAccountRepository userAccountRepository, PasswordEncoder passwordEncoder) {
+		this.userAccountRepository = userAccountRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.tokenProvider = tokenProvider;
+		this.authenticationManagerBuilder = authenticationManagerBuilder;
+	}
+
+
 	@Transactional
-	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
+	public UserAccount create(UserAccountJoinRequestDto userAccountJoinRequestDto) {
 		UserAccount userAccount = UserAccount.create(
 				userAccountJoinRequestDto.email(),
 				passwordEncoder.encode(userAccountJoinRequestDto.password()),
@@ -38,7 +49,7 @@ public class UserAccountService {
 	}
 	// username 과 패스워드로 사용자를 인증하여 액세스토큰을 반환한다.
 	@Transactional
-	public UserAccountSignInResponseDto signIn(String email, String password) {
+	public ResponseSignIn signIn(String email, String password) {
 		// 받아온 유저네임과 패스워드를 이용해 UsernamePasswordAuthenticationToken 객체 생성
 		UsernamePasswordAuthenticationToken authenticationToken =
 				new UsernamePasswordAuthenticationToken(email, password);
@@ -58,6 +69,8 @@ public class UserAccountService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return UserAccountSignInResponseDto.toDto(accessToken);
+		return ResponseSignIn.builder()
+				.accessToken(accessToken)
+				.build();
 	}
 }
