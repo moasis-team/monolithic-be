@@ -1,7 +1,6 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -9,10 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
+import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 
@@ -24,15 +23,6 @@ public class UserAccountService {
 	private final PasswordEncoder passwordEncoder;
 	private final TokenProvider tokenProvider;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-
-	@Autowired
-	public UserAccountService(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserAccountRepository userAccountRepository, PasswordEncoder passwordEncoder) {
-		this.userAccountRepository = userAccountRepository;
-		this.passwordEncoder = passwordEncoder;
-		this.tokenProvider = tokenProvider;
-		this.authenticationManagerBuilder = authenticationManagerBuilder;
-	}
 
 
 	@Transactional
