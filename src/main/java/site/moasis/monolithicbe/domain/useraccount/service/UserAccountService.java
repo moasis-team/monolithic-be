@@ -9,10 +9,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.domain.useraccount.ResponseSignIn;
 import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
+import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 
@@ -36,7 +36,7 @@ public class UserAccountService {
 
 
 	@Transactional
-	public UserAccount create(UserAccountJoinRequestDto userAccountJoinRequestDto) {
+	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
 		UserAccount userAccount = UserAccount.create(
 				userAccountJoinRequestDto.email(),
 				passwordEncoder.encode(userAccountJoinRequestDto.password()),
@@ -48,8 +48,8 @@ public class UserAccountService {
 		return userAccountRepository.save(userAccount);
 	}
 	// username 과 패스워드로 사용자를 인증하여 액세스토큰을 반환한다.
-	@Transactional
-	public ResponseSignIn signIn(String email, String password) {
+	@Transactional(readOnly = true)
+	public UserAccountSignInResponseDto signIn(String email, String password) {
 		// 받아온 유저네임과 패스워드를 이용해 UsernamePasswordAuthenticationToken 객체 생성
 		UsernamePasswordAuthenticationToken authenticationToken =
 				new UsernamePasswordAuthenticationToken(email, password);
@@ -69,8 +69,6 @@ public class UserAccountService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ResponseSignIn.builder()
-				.accessToken(accessToken)
-				.build();
+		return UserAccountSignInResponseDto.toDto(accessToken);
 	}
 }
