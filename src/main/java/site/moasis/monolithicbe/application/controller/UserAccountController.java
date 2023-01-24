@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.common.response.CommonResponse;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinRequestDto;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountJoinResponseDto;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInRequestDto;
-import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountSignInResponseDto;
+import site.moasis.monolithicbe.domain.useraccount.dto.*;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountService;
 
@@ -24,8 +21,8 @@ public class UserAccountController {
 
 
 	@PostMapping("/signin") // Account 인증 API
-	public ResponseEntity<CommonResponse<?>> authorize(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
-		UserAccountSignInResponseDto token = userAccountService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
+	public ResponseEntity<CommonResponse<?>> authorize(@Valid @RequestBody UserAccountDto.UserAccountSignInRequestDto userAccountSignInRequestDto) {
+		UserAccountDto.UserAccountSignInResponseDto token = userAccountService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(token, "로그인 완료"));
 	}
 
@@ -39,10 +36,10 @@ public class UserAccountController {
 	}
 
 	@PostMapping()
-	public ResponseEntity<CommonResponse<UserAccountJoinResponseDto>> join(@RequestBody UserAccountJoinRequestDto userAccountJoinRequestDto) {
+	public ResponseEntity<CommonResponse<UserAccountDto.UserAccountJoinResponseDto>> join(@RequestBody UserAccountDto.UserAccountJoinRequestDto userAccountJoinRequestDto) {
 		UserAccount savedUserAccount = userAccountService.signUp(userAccountJoinRequestDto);
 		return ResponseEntity.created(URI.create("/users/" + savedUserAccount.getId())).body(
-				CommonResponse.success(UserAccountJoinResponseDto.toDto(savedUserAccount), "User Created")
+				CommonResponse.success(UserAccountDto.UserAccountJoinResponseDto.toDto(savedUserAccount), "User Created")
 		);
 	}
 }
