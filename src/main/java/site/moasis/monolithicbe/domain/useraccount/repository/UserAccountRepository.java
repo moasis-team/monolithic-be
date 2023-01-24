@@ -6,6 +6,5 @@ import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import java.util.Optional;
 
 public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
-	Optional<UserAccount> findOneByEmail(String email);
 	Optional<UserAccount> findByEmail(String email);
 }
