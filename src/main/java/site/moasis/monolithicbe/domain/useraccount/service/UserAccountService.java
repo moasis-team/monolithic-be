@@ -44,7 +44,6 @@ public class UserAccountService {
 				userAccountJoinRequestDto.phoneNumber(),
 				UserRole.ROLE_USER
 		);
-
 		return userAccountRepository.save(userAccount);
 	}
 	// username 과 패스워드로 사용자를 인증하여 액세스토큰을 반환한다.
