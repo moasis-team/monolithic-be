@@ -1,7 +1,6 @@
 package site.moasis.monolithicbe.application.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -28,20 +27,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 	private final TokenProvider tokenProvider;
 
-	// 생성자 통해 스프링 빈 주입받는다.
-	@Autowired
-	public SecurityConfig(
-			TokenProvider tokenProvider,
-			CorsFilter corsFilter,
-			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-			JwtAccessDeniedHandler jwtAccessDeniedHandler
-	) {
-		this.tokenProvider = tokenProvider;
-		this.corsFilter = corsFilter;
-		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
-		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
-	}
-
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -52,12 +37,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 			.exceptionHandling()
 			.authenticationEntryPoint(jwtAuthenticationEntryPoint) // 우리가 만든 클래스로 인증 실패 핸들링
 			.accessDeniedHandler(jwtAccessDeniedHandler) // 커스텀 인가 실패 핸들링
-
-			// enable h2-console // embedded h2를 위한 설정
-			.and()
-			.headers()
-			.frameOptions()
-			.sameOrigin()
 
 			// 세션을 사용하지 않기 때문에 STATELESS로 설정
 			.and()
