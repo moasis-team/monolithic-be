@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.ClientAbortException;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import site.moasis.monolithicbe.common.exception.BaseException;
+import site.moasis.monolithicbe.common.exception.DuplicatedEmailException;
 
 import java.util.List;
 
@@ -91,5 +93,24 @@ public class CommonControllerAdvice {
         } else {
             return CommonResponse.fail(ErrorCode.COMMON_INVALID_PARAMETER.getErrorMsg(), ErrorCode.COMMON_INVALID_PARAMETER.name());
         }
+    }
+
+    /**
+     * http status: 409 AND result: FAIL
+     * request parameter 에러
+     *
+     * @param e
+     * @return
+     */
+    @ResponseBody
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(value = {DuplicatedEmailException.class})
+    public CommonResponse duplicatedEmailException(DuplicatedEmailException e) {
+        log.warn("[BaseException] errorMsg = {}",  NestedExceptionUtils.getMostSpecificCause(e).getMessage());
+        String message = e.getMessage();
+        if(StringUtils.hasText(message)){
+            return CommonResponse.fail(message, ErrorCode.COMMON_DUPLICATED_EMAIL.name());
+        }
+        return CommonResponse.fail(ErrorCode.COMMON_DUPLICATED_EMAIL);
     }
 }
