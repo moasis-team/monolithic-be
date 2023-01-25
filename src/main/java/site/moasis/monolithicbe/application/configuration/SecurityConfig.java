@@ -44,7 +44,8 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 			.and().authorizeHttpRequests()
 			.requestMatchers(HttpMethod.POST,"/users").permitAll()
 			.requestMatchers("/users/signin").permitAll()
-			.anyRequest().authenticated()
+			.anyRequest().permitAll()
+
 			.and()
 			.apply(new JwtSecurityConfig(tokenProvider));
 
