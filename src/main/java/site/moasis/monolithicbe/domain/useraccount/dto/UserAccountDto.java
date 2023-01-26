@@ -33,10 +33,11 @@ public record UserAccountDto() {
 	}
 
 	public record UserAccountSignInResponseDto(
-			String accessToken
+			String accessToken,
+			String refreshToken
 	) {
-		public static UserAccountSignInResponseDto toDto(String accessToken) {
-			return new UserAccountSignInResponseDto(accessToken);
+		public static UserAccountSignInResponseDto toDto(String accessToken, String refreshToken) {
+			return new UserAccountSignInResponseDto(accessToken, refreshToken);
 		}
 	}
 }
