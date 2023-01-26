@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
+import site.moasis.monolithicbe.domain.common.DateTimeEntity;
+
 import java.util.UUID;
 
 @Getter
@@ -11,7 +13,7 @@ import java.util.UUID;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @SQLDelete(sql = "UPDATE comment SET is_deleted=true WHERE comment_id = ?")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends DateTimeEntity {
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(generator = "UUID")

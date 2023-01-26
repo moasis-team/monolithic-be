@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.common.response.CommonResponse;
 import site.moasis.monolithicbe.domain.comment.service.CommentCommand;
+import site.moasis.monolithicbe.domain.comment.service.CommentInfo;
 import site.moasis.monolithicbe.domain.comment.service.CommentReadService;
 import site.moasis.monolithicbe.domain.comment.service.CommentWriteService;
 
@@ -65,7 +66,7 @@ public class CommentController {
 
     @PostMapping("/users/{userId}/articles/{articleId}/comments")
     @Operation(summary = "댓글 생성")
-    public ResponseEntity<CommonResponse<?>> registerComment(
+    public ResponseEntity<CommonResponse<CommentInfo>> registerComment(
             @PathVariable UUID userId,
             @PathVariable UUID articleId,
             @RequestBody RegisterCommentRequest registerCommentRequest){
@@ -78,7 +79,7 @@ public class CommentController {
                 .articleId(articleId)
                 .content(registerCommentRequest.getContent())
                 .build();
-        
+
         var commentInfo = writeService.registerComment(command);
 
         return ResponseEntity

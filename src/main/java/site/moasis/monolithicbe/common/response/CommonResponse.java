@@ -13,7 +13,7 @@ public class CommonResponse<T> {
     private Result result;
     private T data;
     private String message;
-    private String errorCode;
+    private ErrorCode errorCode;
 
     public static <T> CommonResponse<T> success(T data, String message) {
         return (CommonResponse<T>) CommonResponse.builder()
@@ -27,7 +27,7 @@ public class CommonResponse<T> {
         return success(data, null);
     }
 
-    public static CommonResponse fail(String message, String errorCode) {
+    public static CommonResponse fail(String message, ErrorCode errorCode) {
         return CommonResponse.builder()
                 .result(Result.FAIL)
                 .message(message)
@@ -38,8 +38,8 @@ public class CommonResponse<T> {
     public static CommonResponse fail(ErrorCode errorCode) {
         return CommonResponse.builder()
                 .result(Result.FAIL)
-                .message(errorCode.getErrorMsg())
-                .errorCode(errorCode.name())
+                .message(errorCode.getCode())
+                .errorCode(errorCode)
                 .build();
     }
 

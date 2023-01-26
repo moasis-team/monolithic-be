@@ -3,7 +3,8 @@ package site.moasis.monolithicbe.domain.comment.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.common.exception.EntityNotFoundException;
+import site.moasis.monolithicbe.common.exception.BusinessException;
+import site.moasis.monolithicbe.common.response.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class CommentReadService{
     public CommentOneDto selectOne(UUID commentId){
         return new CommentOneDto(
                 Optional.ofNullable(commentRepository.findById(commentId)
-                        .orElseThrow(EntityNotFoundException::new)));
+                        .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND))));
     }
 
     public CommentResponseDto selectByArticle(Long articleId){
