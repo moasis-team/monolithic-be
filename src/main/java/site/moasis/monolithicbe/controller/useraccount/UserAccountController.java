@@ -8,6 +8,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.controller.common.CommonResponse;
+import site.moasis.monolithicbe.domain.useraccount.TokenManager;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
@@ -46,5 +47,16 @@ public class UserAccountController {
 	public ResponseEntity<CommonResponse<?>> join(@RequestBody UserAccountJoinRequestDto userAccountJoinRequestDto) {
 		UserAccount savedUserAccount = userAccountWriteService.signUp(userAccountJoinRequestDto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.success(UserAccountJoinResponseDto.toDto(savedUserAccount), "회원가입 완료"));
+	}
+
+	@PatchMapping("/token")
+	public ResponseEntity<CommonResponse<?>> reIssueToken(@RequestHeader HttpHeaders headers, @CookieValue(name = "refreshToken") String refreshToken){
+		String accessToken = TokenManager.getTokenFromHeader(headers);
+		ReissueTokenResponseDto dto = this.userAccountWriteService.ReissueToken(accessToken, refreshToken);
+
+		HashMap<String, String> tokenObject = new HashMap<>();
+		tokenObject.put("accessToken", dto.accessToken());
+
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "success"));
 	}
 }
