@@ -5,13 +5,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -19,21 +17,21 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-@Component
-public class TokenProvider {
+public abstract class TokenManager {
 
 	private static final String AUTHORITIES_KEY = "auth";
-	private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+	private final Logger logger = LoggerFactory.getLogger(AccessTokenManager.class);
 	private final long tokenValidityInMilliseconds;
 	private final Key key;
 
-	public TokenProvider(@Value("${jwt.access-token-secret}") String accessTokenSecret,
-	                     @Value("${jwt.access-token-validity-in-seconds}")
-	                     Long accessTokenValidityInSeconds){
-		this.tokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000;
-		byte[] keyBytes = Decoders.BASE64.decode(accessTokenSecret);
+
+	public TokenManager(String tokenSecret, Long tokenValidityInSeconds)
+	{
+		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
+		byte[] keyBytes = Decoders.BASE64.decode(tokenSecret);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
+
 
 	public String createToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream()
