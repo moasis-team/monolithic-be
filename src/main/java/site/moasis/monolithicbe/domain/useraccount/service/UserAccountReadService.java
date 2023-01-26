@@ -7,13 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
+import site.moasis.monolithicbe.domain.useraccount.AccessTokenManager;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class UserAccountReadService {
-	private final TokenProvider tokenProvider;
+	private final AccessTokenManager accessTokenManager;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	public UserAccountDto.UserAccountSignInResponseDto signIn(String email, String password) {
 		UsernamePasswordAuthenticationToken authenticationToken =
@@ -24,7 +24,7 @@ public class UserAccountReadService {
 		String accessToken = null;
 
 		try {
-			accessToken = tokenProvider.createToken(authentication);
+			accessToken = accessTokenManager.createToken(authentication);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
