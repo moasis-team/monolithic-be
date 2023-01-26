@@ -20,6 +20,7 @@ public class UserAccount {
 	private String phoneNumber;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	private String refreshToken;
 
 	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
 		this.email = email;
