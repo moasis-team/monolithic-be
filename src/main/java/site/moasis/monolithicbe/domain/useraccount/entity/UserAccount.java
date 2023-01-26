@@ -34,7 +34,7 @@ public class UserAccount {
 		return new UserAccount(email, password, name, phoneNumber, role);
 	}
 
-	public void registerRefreshToken(String refreshToken){
+	public void changeRefreshToken(String refreshToken){
 		this.refreshToken = refreshToken;
 	}
 }
