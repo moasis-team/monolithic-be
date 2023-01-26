@@ -40,4 +40,14 @@ public record UserAccountDto() {
 			return new UserAccountSignInResponseDto(accessToken, refreshToken);
 		}
 	}
+
+	public record ReissueTokenResponseDto(
+			String accessToken,
+			String refreshToken
+	) {
+		public static ReissueTokenResponseDto toDto(String accessToken, String refreshToken) {
+			return new ReissueTokenResponseDto(accessToken, refreshToken);
+		}
+	}
+
 }
