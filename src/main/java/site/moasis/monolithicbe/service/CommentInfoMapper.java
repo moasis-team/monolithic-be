@@ -1,10 +1,9 @@
-package site.moasis.monolithicbe.domain.comment.service;
+package site.moasis.monolithicbe.service;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-import site.moasis.monolithicbe.domain.comment.entity.Comment;
-import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentInfo;
+import site.moasis.monolithicbe.domain.comment.Comment;
 
 @Mapper
 public interface CommentInfoMapper {

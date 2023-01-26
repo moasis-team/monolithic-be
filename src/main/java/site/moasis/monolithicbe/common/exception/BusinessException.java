@@ -2,8 +2,6 @@ package site.moasis.monolithicbe.common.exception;
 
 import lombok.Getter;
 import org.springframework.util.StringUtils;
-import site.moasis.monolithicbe.common.response.ErrorCode;
-
 import java.util.List;
 
 @Getter

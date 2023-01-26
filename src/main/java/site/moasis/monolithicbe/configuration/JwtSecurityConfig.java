@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.application.configuration;
+package site.moasis.monolithicbe.configuration;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

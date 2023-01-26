@@ -1,15 +1,15 @@
-package site.moasis.monolithicbe.domain.comment.service;
+package site.moasis.monolithicbe.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
-import site.moasis.monolithicbe.common.response.ErrorCode;
-import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
+import site.moasis.monolithicbe.common.exception.ErrorCode;
+import site.moasis.monolithicbe.infrastructure.CommentRepository;
 import java.util.Optional;
 import java.util.UUID;
-import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentResponseDto;
-import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentOneDto;
+import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentResponseDto;
+import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentOneDto;
 
 @Service
 @RequiredArgsConstructor

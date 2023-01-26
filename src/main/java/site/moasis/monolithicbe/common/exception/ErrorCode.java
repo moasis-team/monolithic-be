@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.common.response;
+package site.moasis.monolithicbe.common.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

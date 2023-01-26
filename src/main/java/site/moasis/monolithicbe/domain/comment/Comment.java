@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.domain.comment.entity;
+package site.moasis.monolithicbe.domain.comment;
 
 import jakarta.persistence.*;
 import lombok.*;

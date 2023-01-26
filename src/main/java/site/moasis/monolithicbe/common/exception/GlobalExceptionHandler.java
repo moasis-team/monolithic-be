@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.common.response;
+package site.moasis.monolithicbe.common.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -9,11 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import site.moasis.monolithicbe.common.exception.BusinessException;
-import site.moasis.monolithicbe.common.exception.ConstraintViolationResolver;
-import site.moasis.monolithicbe.common.response.CommonResponse;
-import site.moasis.monolithicbe.common.validator.ValidationResult;
-
+import site.moasis.monolithicbe.controller.common.CommonResponse;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -38,7 +34,7 @@ public class GlobalExceptionHandler {
     ResponseEntity<CommonResponse> handleConstraintViolationException(ConstraintViolationException e) {
         log.error("ConstraintViolationException: ", e);
 
-        List<ValidationResult.FieldErrorDetail> fieldErrorDetails = e.getConstraintViolations().stream()
+        List<FieldErrorDetail> fieldErrorDetails = e.getConstraintViolations().stream()
                 .map(violationMessageResolver::toFiledErrorDetail)
                 .collect(Collectors.toList());
 

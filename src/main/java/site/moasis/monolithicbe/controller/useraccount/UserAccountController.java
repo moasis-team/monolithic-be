@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.application.controller;
+package site.moasis.monolithicbe.controller.useraccount;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import site.moasis.monolithicbe.common.response.CommonResponse;
+import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
