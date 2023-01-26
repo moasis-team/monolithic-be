@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.common.exception.EntityNotFoundException;
+import site.moasis.monolithicbe.common.exception.BusinessException;
+import site.moasis.monolithicbe.common.response.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.entity.Comment;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
@@ -32,7 +33,7 @@ public class CommentWriteService{
     }
 
     public UUID dropOne(UUID commentId){
-        commentRepository.findById(commentId).orElseThrow(EntityNotFoundException::new);
+        commentRepository.findById(commentId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND));
         commentRepository.deleteById(commentId);
         return commentId;
     }
