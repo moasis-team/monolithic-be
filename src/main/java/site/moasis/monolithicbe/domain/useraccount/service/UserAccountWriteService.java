@@ -1,6 +1,8 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -18,13 +20,14 @@ import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountReposit
 
 import java.util.Optional;
 
-import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.UserAccountJoinRequestDto;
-import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.UserAccountSignInResponseDto;
+import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
 public class UserAccountWriteService {
+	private final Logger logger = LoggerFactory.getLogger(UserAccountWriteService.class);
+
 	private final AccessTokenManager accessTokenManager;
 	private final UserAccountRepository userAccountRepository;
 	private final PasswordEncoder passwordEncoder;
@@ -63,7 +66,7 @@ public class UserAccountWriteService {
 
 		userAccountOptional.ifPresentOrElse(
 				userAccount -> {
-					userAccount.registerRefreshToken(refreshToken);
+					userAccount.changeRefreshToken(refreshToken);
 					userAccountRepository.save(userAccount);
 				},
 				() -> {
@@ -71,5 +74,37 @@ public class UserAccountWriteService {
 				});
 
 		return UserAccountSignInResponseDto.toDto(accessTokenManager.createToken(authentication), refreshToken);
+	}
+
+	public ReissueTokenResponseDto ReissueToken(String accessToken, String refreshToken){
+
+		if(accessTokenManager.validateToken(accessToken)){
+			logger.info("아직 엑세스토큰이 유효합니다");
+			throw new BusinessException(ErrorCode.FORBIDDEN);
+		}
+		if(!refreshTokenManager.validateToken(refreshToken)){
+			System.out.println("refreshToken = " + refreshToken);
+
+			logger.info("리프레쉬 토큰이 유효하지 않습니다");
+			throw new BusinessException(ErrorCode.FORBIDDEN);
+		}
+
+		Optional<UserAccount> userAccountOptional = this.userAccountRepository.findByRefreshToken(refreshToken);
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		String newAccessToken = accessTokenManager.createToken(authentication);
+		String newRefreshToken = refreshTokenManager.createToken(authentication);
+
+		userAccountOptional.ifPresentOrElse(
+				userAccount -> {
+					userAccount.changeRefreshToken(newRefreshToken);
+					userAccountRepository.save(userAccount);
+				},
+				() -> {
+					throw new BusinessException(ErrorCode.NOT_FOUND);
+				});
+
+
+		return ReissueTokenResponseDto.toDto(newAccessToken, newRefreshToken);
 	}
 }
