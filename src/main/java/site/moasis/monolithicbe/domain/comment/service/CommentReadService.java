@@ -8,7 +8,6 @@ import site.moasis.monolithicbe.common.response.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
 import java.util.Optional;
 import java.util.UUID;
-
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentResponseDto;
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentOneDto;
 
@@ -29,12 +28,12 @@ public class CommentReadService{
                         .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND))));
     }
 
-    public CommentResponseDto selectByArticle(Long articleId){
+    public CommentResponseDto selectByArticle(UUID articleId){
         return new CommentResponseDto(
                 commentRepository.findByArticleId(articleId));
     }
 
-    public CommentResponseDto selectByUser(Long userId){
+    public CommentResponseDto selectByUser(UUID userId){
         return new CommentResponseDto(
                 commentRepository.findByUserId(userId));
     }
