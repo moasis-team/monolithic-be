@@ -7,10 +7,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CommentRepository extends JpaRepository<Comment, UUID> {
-    List<Comment> findByArticleId(Long articleId);
-    List<Comment> findByUserId(Long userId);
+public interface CommentRepository extends JpaRepository<Comment, Long> {
+    List<Comment> findByArticleId(UUID articleId);
+    List<Comment> findByUserId(UUID userId);
 
-    void deleteByUserId(Long userId);
-    void deleteByArticleId(Long articleId);
+    Optional<Comment> findById(UUID commentID);
+
+    void deleteById(UUID commentID);
 }
