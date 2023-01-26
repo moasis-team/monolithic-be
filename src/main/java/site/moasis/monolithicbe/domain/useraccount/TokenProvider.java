@@ -1,15 +1,15 @@
 package site.moasis.monolithicbe.domain.useraccount;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+@Component
 public class TokenProvider {
 
 	protected static final String AUTHORITIES_KEY = "auth";
@@ -25,13 +26,11 @@ public class TokenProvider {
 	protected final long tokenValidityInMilliseconds;
 	protected Key key;
 
-
-	public TokenProvider(String secret, long tokenValidityInSeconds) {
-		this.secret = secret;
-		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-		byte[] keyBytes = Decoders.BASE64.decode(secret);
-		this.key = Keys.hmacShaKeyFor(keyBytes);
-
+	public TokenProvider(@Value("${jwt.access-token-secret}") String accessTokenSecret,
+	                     @Value("${jwt.access-token-validity-in-seconds}")
+	                     Long accessTokenValidityInSeconds){
+		this.tokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000;
+		this.secret = accessTokenSecret;
 	}
 
 	public String createToken(Authentication authentication) {
