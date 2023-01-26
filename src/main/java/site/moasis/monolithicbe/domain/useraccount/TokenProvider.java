@@ -1,6 +1,8 @@
 package site.moasis.monolithicbe.domain.useraccount;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,17 +22,17 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
 
-	protected static final String AUTHORITIES_KEY = "auth";
-	protected final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-	protected final String secret;
-	protected final long tokenValidityInMilliseconds;
-	protected Key key;
+	private static final String AUTHORITIES_KEY = "auth";
+	private final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+	private final long tokenValidityInMilliseconds;
+	private final Key key;
 
 	public TokenProvider(@Value("${jwt.access-token-secret}") String accessTokenSecret,
 	                     @Value("${jwt.access-token-validity-in-seconds}")
 	                     Long accessTokenValidityInSeconds){
 		this.tokenValidityInMilliseconds = accessTokenValidityInSeconds * 1000;
-		this.secret = accessTokenSecret;
+		byte[] keyBytes = Decoders.BASE64.decode(accessTokenSecret);
+		this.key = Keys.hmacShaKeyFor(keyBytes);
 	}
 
 	public String createToken(Authentication authentication) {
