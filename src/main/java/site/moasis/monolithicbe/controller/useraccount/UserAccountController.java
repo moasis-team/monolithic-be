@@ -2,12 +2,11 @@ package site.moasis.monolithicbe.controller.useraccount;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
@@ -28,10 +27,19 @@ public class UserAccountController {
 	@PostMapping("/signin")
 	public ResponseEntity<CommonResponse<?>> signIn(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
 		UserAccountSignInResponseDto dto = userAccountWriteService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
-		HashMap<String,String> tokenObject = new HashMap<>();
+		HashMap<String, String> tokenObject = new HashMap<>();
 		tokenObject.put("accessToken", dto.accessToken());
 
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "로그인 완료"));
+		ResponseCookie responseCookie = ResponseCookie.from("refreshToken", dto.refreshToken())
+				.httpOnly(true)
+				.secure(true)
+				.path("/")
+				.maxAge(60)
+				.build();
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+				.body(CommonResponse.success(tokenObject, "로그인 완료"));
 	}
 
 	@PostMapping()
