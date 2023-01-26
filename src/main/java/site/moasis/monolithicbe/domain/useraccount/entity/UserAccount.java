@@ -33,4 +33,8 @@ public class UserAccount {
 	public static UserAccount create(String email, String password, String name, String phoneNumber, UserRole role) {
 		return new UserAccount(email, password, name, phoneNumber, role);
 	}
+
+	public void registerRefreshToken(String refreshToken){
+		this.refreshToken = refreshToken;
+	}
 }
