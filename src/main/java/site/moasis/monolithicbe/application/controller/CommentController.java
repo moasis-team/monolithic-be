@@ -24,7 +24,7 @@ public class CommentController {
 
     @GetMapping("/comments")
     @Operation(summary = "댓글 전체 조회")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<CommonResponse<?>> findAll() {
         var commentInfo = readService.selectAll();
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -33,7 +33,7 @@ public class CommentController {
 
     @GetMapping("/comment/{commentId}")
     @Operation(summary = "댓글 단건 조회")
-    public ResponseEntity<?> findOne(@PathVariable("commentId") UUID commentId) {
+    public ResponseEntity<CommonResponse<?>> findOne(@PathVariable("commentId") UUID commentId) {
         var commentInfo = readService.selectOne(commentId);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -42,7 +42,7 @@ public class CommentController {
 
     @GetMapping("/comments/users/{userId}")
     @Operation(summary = "user_id를 통한 댓글 조회")
-    public ResponseEntity<?> findByUser(@PathVariable UUID userId) {
+    public ResponseEntity<CommonResponse<?>> findByUser(@PathVariable UUID userId) {
         var commentInfo = readService.selectByUser(userId);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -51,7 +51,7 @@ public class CommentController {
 
     @GetMapping("/comments/articles/{articleId}")
     @Operation(summary = "article_id를 통한 댓글 조회")
-    public ResponseEntity<?> findByArticle(@PathVariable UUID articleId) {
+    public ResponseEntity<CommonResponse<?>> findByArticle(@PathVariable UUID articleId) {
         var commentInfo = readService.selectByArticle(articleId);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -60,14 +60,16 @@ public class CommentController {
 
     @PostMapping("/users/{userId}/articles/{articleId}/comments")
     @Operation(summary = "댓글 생성")
-    public ResponseEntity<?> registerComment(
+    public ResponseEntity<CommonResponse<?>> registerComment(
             @PathVariable UUID userId,
             @PathVariable UUID articleId,
             @RequestBody RegisterCommentRequest registerCommentRequest) {
 
+        UUID loginUserId = userId;
+
         var command = RegisterCommentCommand
                 .builder()
-                .userId(userId)
+                .userId(loginUserId)
                 .articleId(articleId)
                 .content(registerCommentRequest.getContent())
                 .build();
@@ -81,7 +83,7 @@ public class CommentController {
 
     @DeleteMapping("/comment/id/{commentId}")
     @Operation(summary = "id를 통한 댓글 삭제")
-    public ResponseEntity<?> deleteOne(@PathVariable("commentId") UUID commentId) {
+    public ResponseEntity<CommonResponse<?>> deleteOne(@PathVariable("commentId") UUID commentId) {
         var commentInfo = writeService.dropOne(commentId);
         return ResponseEntity
                 .status(HttpStatus.OK)
