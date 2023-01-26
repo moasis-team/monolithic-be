@@ -4,7 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moasis.monolithicbe.common.exception.DuplicatedEmailException;
+import site.moasis.monolithicbe.common.exception.BusinessException;
+import site.moasis.monolithicbe.common.response.ErrorCode;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
@@ -20,7 +21,7 @@ public class UserAccountWriteService {
 
 	private void checkDuplicatedEmail(String email){
 		if(userAccountRepository.existsByEmail(email)){
-			throw new DuplicatedEmailException();
+			throw new BusinessException(ErrorCode.DUPLICATE);
 		};
 	}
 	public UserAccount signUp(UserAccountDto.UserAccountJoinRequestDto userAccountJoinRequestDto) {
