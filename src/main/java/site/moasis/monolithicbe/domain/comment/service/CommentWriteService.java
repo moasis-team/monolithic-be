@@ -8,11 +8,8 @@ import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.response.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.entity.Comment;
 import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
-import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
-
 import java.util.UUID;
-
-import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentCreateDto;
+import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.*;
 
 @Slf4j
 @Service
@@ -36,15 +33,5 @@ public class CommentWriteService{
         commentRepository.findById(commentId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND));
         commentRepository.deleteById(commentId);
         return commentId;
-    }
-
-    public Long dropByUser(Long userId) {
-        commentRepository.deleteByUserId(userId);
-        return userId;
-    }
-
-    public Long dropByArticle(Long articleId) {
-        commentRepository.deleteByArticleId(articleId);
-        return articleId;
     }
 }
