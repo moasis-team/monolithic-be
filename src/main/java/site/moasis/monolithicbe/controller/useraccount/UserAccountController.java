@@ -13,6 +13,8 @@ import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
 
+import java.util.HashMap;
+
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
 @RequiredArgsConstructor
@@ -24,9 +26,12 @@ public class UserAccountController {
 	private final UserAccountWriteService userAccountWriteService;
 
 	@PostMapping("/signin")
-	public ResponseEntity<CommonResponse<?>> authorize(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
-		UserAccountSignInResponseDto token = userAccountReadService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
-		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(token, "로그인 완료"));
+	public ResponseEntity<CommonResponse<?>> signIn(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
+		UserAccountSignInResponseDto dto = userAccountWriteService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
+		HashMap<String,String> tokenObject = new HashMap<>();
+		tokenObject.put("accessToken", dto.accessToken());
+
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "로그인 완료"));
 	}
 
 	@PostMapping()
