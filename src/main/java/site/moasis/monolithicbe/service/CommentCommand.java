@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.domain.comment.service;
+package site.moasis.monolithicbe.service;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

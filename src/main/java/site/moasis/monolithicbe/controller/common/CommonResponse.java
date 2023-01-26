@@ -1,9 +1,10 @@
-package site.moasis.monolithicbe.common.response;
+package site.moasis.monolithicbe.controller.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.moasis.monolithicbe.common.exception.ErrorCode;
 
 @Getter
 @Builder

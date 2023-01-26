@@ -5,7 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
-import site.moasis.monolithicbe.common.response.ErrorCode;
+import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;

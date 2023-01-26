@@ -8,8 +8,6 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.DefaultMessageCodesResolver;
 import org.springframework.validation.MessageCodesResolver;
-import site.moasis.monolithicbe.common.validator.ValidationResult;
-
 import java.util.Locale;
 import java.util.Map;
 
@@ -19,7 +17,7 @@ public class ConstraintViolationResolver {
     private final MessageSource messageSource;
     private final MessageCodesResolver codesResolver = new DefaultMessageCodesResolver();
 
-    public ValidationResult.FieldErrorDetail toFiledErrorDetail(ConstraintViolation<?> violation) {
+    public FieldErrorDetail toFiledErrorDetail(ConstraintViolation<?> violation) {
         ConstraintDescriptor<?> descriptor = violation.getConstraintDescriptor();
         Map<String, Object> attributes = descriptor.getAttributes();
 
@@ -41,7 +39,7 @@ public class ConstraintViolationResolver {
                 message = message.replace("{value}",
                         getPropertyPath(violation.getInvalidValue()));
 
-                return ValidationResult.FieldErrorDetail.builder()
+                return FieldErrorDetail.builder()
                         .field(propertyPath)
                         .code(code)
                         .message(message)
@@ -54,7 +52,7 @@ public class ConstraintViolationResolver {
             message = violation.getMessage();
         }
 
-        return ValidationResult.FieldErrorDetail.builder()
+        return FieldErrorDetail.builder()
                 .field(propertyPath)
                 .code(null)
                 .message(message)

@@ -1,11 +1,11 @@
-package site.moasis.monolithicbe.domain.comment.service;
+package site.moasis.monolithicbe.service;
 
 import javax.annotation.processing.Generated;
-import site.moasis.monolithicbe.domain.comment.entity.Comment;
+import site.moasis.monolithicbe.domain.comment.Comment;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-24T18:03:11+0900",
+    date = "2023-01-26T23:22:42+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 19.0.2 (Oracle Corporation)"
 )
 public class CommentInfoMapperImpl implements CommentInfoMapper {

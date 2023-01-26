@@ -1,17 +1,19 @@
-package site.moasis.monolithicbe.application.controller;
+package site.moasis.monolithicbe.controller.comment;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import site.moasis.monolithicbe.common.response.CommonResponse;
-import site.moasis.monolithicbe.domain.comment.service.CommentReadService;
-import site.moasis.monolithicbe.domain.comment.service.CommentWriteService;
+import site.moasis.monolithicbe.controller.common.CommonResponse;
+import site.moasis.monolithicbe.service.CommentReadService;
+import site.moasis.monolithicbe.service.CommentWriteService;
 import java.util.UUID;
-import static site.moasis.monolithicbe.domain.comment.vo.CommentVo.*;
-import static site.moasis.monolithicbe.domain.comment.service.CommentCommand.*;
+import static site.moasis.monolithicbe.service.CommentCommand.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -88,5 +90,12 @@ public class CommentController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(CommonResponse.success(null, commentInfo + "번 댓글 삭제 완료"));
+    }
+
+    @Getter
+    @EqualsAndHashCode
+    @NoArgsConstructor
+    public static class RegisterCommentRequest {
+        private String content;
     }
 }

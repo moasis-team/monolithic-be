@@ -1,7 +1,6 @@
 package site.moasis.monolithicbe.common.exception;
 
 import jakarta.validation.*;
-
 import java.util.Set;
 
 public abstract class SelfValidating<T> {

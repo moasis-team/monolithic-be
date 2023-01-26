@@ -1,7 +1,7 @@
-package site.moasis.monolithicbe.domain.comment.repository;
+package site.moasis.monolithicbe.infrastructure;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import site.moasis.monolithicbe.domain.comment.entity.Comment;
+import site.moasis.monolithicbe.domain.comment.Comment;
 
 import java.util.List;
 import java.util.Optional;
