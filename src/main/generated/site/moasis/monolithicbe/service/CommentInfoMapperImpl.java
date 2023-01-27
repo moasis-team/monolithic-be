@@ -5,8 +5,8 @@ import site.moasis.monolithicbe.domain.comment.Comment;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-26T23:22:42+0900",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 19.0.2 (Oracle Corporation)"
+    date = "2023-01-27T23:07:40+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.5 (Amazon.com Inc.)"
 )
 public class CommentInfoMapperImpl implements CommentInfoMapper {
 
