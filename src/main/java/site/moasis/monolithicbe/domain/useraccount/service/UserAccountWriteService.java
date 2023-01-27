@@ -82,7 +82,7 @@ public class UserAccountWriteService {
 		return UserAccountSignInResponseDto.toDto(accessTokenManager.createToken(authentication), refreshToken);
 	}
 
-	public ReissueTokenResponseDto ReissueToken(String accessToken, String refreshToken){
+	public ReissueTokenResponseDto reissueToken(String accessToken, String refreshToken){
 
 		if(accessTokenManager.validateToken(accessToken)){
 			logger.info("아직 엑세스토큰이 유효합니다");
@@ -99,16 +99,25 @@ public class UserAccountWriteService {
 		String newAccessToken = accessTokenManager.createToken(authentication);
 		String newRefreshToken = refreshTokenManager.createToken(authentication);
 
-		userAccountOptional.ifPresentOrElse(
-				userAccount -> {
-					userAccount.changeRefreshToken(newRefreshToken);
-					userAccountRepository.save(userAccount);
-				},
-				() -> {
-					throw new BusinessException(ErrorCode.NOT_FOUND);
-				});
-
+		userAccountOptional.ifPresentOrElse(userAccount -> {
+			userAccount.changeRefreshToken(newRefreshToken);
+			userAccountRepository.save(userAccount);
+		}, () -> {
+			throw new BusinessException(ErrorCode.NOT_FOUND);
+		});
 
 		return ReissueTokenResponseDto.toDto(newAccessToken, newRefreshToken);
+	}
+
+	public void logout(String refreshToken) {
+
+		Optional<UserAccount> userAccountOptional = this.userAccountRepository.findByRefreshToken(refreshToken);
+
+		userAccountOptional.ifPresentOrElse(userAccount -> {
+			userAccount.changeRefreshToken(null);
+			userAccountRepository.save(userAccount);
+		}, () -> {
+			throw new BusinessException(ErrorCode.NOT_FOUND);
+		});
 	}
 }

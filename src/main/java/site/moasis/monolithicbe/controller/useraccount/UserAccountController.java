@@ -27,7 +27,7 @@ public class UserAccountController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<CommonResponse<?>> signIn(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
-		int MAX_AGE_SECOND = 60 * 60 * 24 * 14;
+		int COOKIE_MAX_AGE_SECOND = 60 * 60 * 24 * 14;
 
 		UserAccountSignInResponseDto dto = userAccountWriteService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
 		HashMap<String, String> tokenObject = new HashMap<>();
@@ -37,7 +37,7 @@ public class UserAccountController {
 				.httpOnly(true)
 				.secure(true)
 				.path("/")
-				.maxAge(MAX_AGE_SECOND)
+				.maxAge(COOKIE_MAX_AGE_SECOND)
 				.build();
 
 		return ResponseEntity.status(HttpStatus.OK)
@@ -54,11 +54,28 @@ public class UserAccountController {
 	@PatchMapping("/token")
 	public ResponseEntity<CommonResponse<?>> reIssueToken(@RequestHeader HttpHeaders headers, @CookieValue(name = "refreshToken") String refreshToken){
 		String accessToken = TokenManager.getTokenFromHeader(headers);
-		ReissueTokenResponseDto dto = this.userAccountWriteService.ReissueToken(accessToken, refreshToken);
+		ReissueTokenResponseDto dto = this.userAccountWriteService.reissueToken(accessToken, refreshToken);
 
 		HashMap<String, String> tokenObject = new HashMap<>();
 		tokenObject.put("accessToken", dto.accessToken());
 
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "success"));
+	}
+
+	@PatchMapping("/logout")
+	public ResponseEntity<CommonResponse<?>> reIssueToken(@CookieValue(name = "refreshToken") String refreshToken){
+
+		this.userAccountWriteService.logout(refreshToken);
+
+		ResponseCookie responseCookie = ResponseCookie.from("refreshToken", "")
+				.httpOnly(true)
+				.secure(true)
+				.path("/")
+				.maxAge(0)
+				.build();
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.header(HttpHeaders.SET_COOKIE, responseCookie.toString())
+				.body(CommonResponse.success(null, "로그인 완료"));
 	}
 }
