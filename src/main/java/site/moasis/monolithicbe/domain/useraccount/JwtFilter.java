@@ -26,11 +26,11 @@ public class JwtFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
 		HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-		String jwt = TokenManager.getTokenFromRequest(httpServletRequest);
+		String accessToken = TokenManager.getTokenFromRequest(httpServletRequest);
 		String requestURI = httpServletRequest.getRequestURI();
 
-		if (StringUtils.hasText(jwt) && accessTokenManager.validateToken(jwt)) {
-			Authentication authentication = accessTokenManager.getAuthentication(jwt);
+		if (StringUtils.hasText(accessToken) && accessTokenManager.validateToken(accessToken)) {
+			Authentication authentication = accessTokenManager.getAuthentication(accessToken);
 
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			logger.info("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);
