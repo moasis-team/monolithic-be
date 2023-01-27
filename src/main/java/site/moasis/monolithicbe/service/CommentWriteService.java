@@ -29,8 +29,8 @@ public class CommentWriteService{
     }
 
     public UUID dropOne(UUID commentId){
-        commentRepository.findById(commentId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND));
-        commentRepository.deleteById(commentId);
+        commentRepository.selectById(commentId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND));
+        commentRepository.deleteByCommentId(commentId);
         return commentId;
     }
 }
