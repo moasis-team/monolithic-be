@@ -27,6 +27,8 @@ public class UserAccountController {
 
 	@PostMapping("/signin")
 	public ResponseEntity<CommonResponse<?>> signIn(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
+		int MAX_AGE_SECOND = 60 * 60 * 24 * 14;
+
 		UserAccountSignInResponseDto dto = userAccountWriteService.signIn(userAccountSignInRequestDto.email(), userAccountSignInRequestDto.password());
 		HashMap<String, String> tokenObject = new HashMap<>();
 		tokenObject.put("accessToken", dto.accessToken());
@@ -35,7 +37,7 @@ public class UserAccountController {
 				.httpOnly(true)
 				.secure(true)
 				.path("/")
-				.maxAge(60)
+				.maxAge(MAX_AGE_SECOND)
 				.build();
 
 		return ResponseEntity.status(HttpStatus.OK)
