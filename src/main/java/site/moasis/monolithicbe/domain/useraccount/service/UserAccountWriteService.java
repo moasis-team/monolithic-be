@@ -3,6 +3,7 @@ package site.moasis.monolithicbe.domain.useraccount.service;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -55,11 +56,16 @@ public class UserAccountWriteService {
 
 
 	public UserAccountSignInResponseDto signIn(String email, String password) {
-		UsernamePasswordAuthenticationToken authenticationToken =
-				new UsernamePasswordAuthenticationToken(email, password);
+		Authentication authentication;
 
-		Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		try {
+			UsernamePasswordAuthenticationToken authenticationToken =
+					new UsernamePasswordAuthenticationToken(email, password);
+			authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+		} catch (BadCredentialsException e) {
+			throw new BusinessException(ErrorCode.INVALID_PARAMETER);
+		}
 
 		String refreshToken = refreshTokenManager.createToken(authentication);
 		Optional<UserAccount> userAccountOptional = this.userAccountRepository.findByEmail(authentication.getName());
@@ -83,8 +89,6 @@ public class UserAccountWriteService {
 			throw new BusinessException(ErrorCode.FORBIDDEN);
 		}
 		if(!refreshTokenManager.validateToken(refreshToken)){
-			System.out.println("refreshToken = " + refreshToken);
-
 			logger.info("리프레쉬 토큰이 유효하지 않습니다");
 			throw new BusinessException(ErrorCode.FORBIDDEN);
 		}
