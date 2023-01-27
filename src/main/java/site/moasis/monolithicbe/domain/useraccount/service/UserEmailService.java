@@ -3,6 +3,7 @@ package site.moasis.monolithicbe.domain.useraccount.service;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static site.moasis.monolithicbe.common.message.UserMessage.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserEmailService {
@@ -38,6 +40,7 @@ public class UserEmailService {
         } catch (Exception e) {
             throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
+        log.info("사용자 이메일={}, 발급된 코드={}", email, code);
         codeMap.put(email, code);
     }
 
