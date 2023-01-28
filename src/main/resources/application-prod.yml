@@ -13,6 +13,7 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
+
   mail:
     # host, port는 naver에서 정해준 값
     host: smtp.naver.com
@@ -25,3 +26,11 @@ spring:
       mail.smtp.auth: true
       mail.smtp.ssl.enable: true
       mail.smtp.ssl.trust: smtp.naver.com
+      
+      
+jwt:
+  header: ${HEADER_STRING}
+  access-token-secret: ${ACCESS_TOKEN_SECRET}
+  access-token-validity-in-seconds: ${ACCESS_TOKEN_EXPIRE}
+  refresh-token-secret: ${REFRESH_TOKEN_SECRET}
+  refresh-token-validity-in-seconds: ${REFRESH_TOKEN_EXPIRE}

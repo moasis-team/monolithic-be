@@ -41,10 +41,21 @@ public record UserAccountDto() {
 	}
 
 	public record UserAccountSignInResponseDto(
-			String accessToken
+			String accessToken,
+			String refreshToken
 	) {
-		public static UserAccountSignInResponseDto toDto(String accessToken) {
-			return new UserAccountSignInResponseDto(accessToken);
+		public static UserAccountSignInResponseDto toDto(String accessToken, String refreshToken) {
+			return new UserAccountSignInResponseDto(accessToken, refreshToken);
 		}
 	}
+
+	public record ReissueTokenResponseDto(
+			String accessToken,
+			String refreshToken
+	) {
+		public static ReissueTokenResponseDto toDto(String accessToken, String refreshToken) {
+			return new ReissueTokenResponseDto(accessToken, refreshToken);
+		}
+	}
+
 }
