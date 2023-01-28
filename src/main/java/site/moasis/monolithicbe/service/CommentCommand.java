@@ -22,7 +22,7 @@ public class CommentCommand {
         private UUID articleId;
 
         @NotBlank
-        @Length(max = 1000)
+        @Length(min =3, max = 1000)
         private String content;
 
         @Builder
