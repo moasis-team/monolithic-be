@@ -1,5 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.NonNull;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 
@@ -24,6 +26,12 @@ public record UserAccountDto() {
 	                userAccount.getPhoneNumber(), userAccount.getRole()
 	        );
 	    }
+	}
+
+	public record EmailCertificationRequestDto(
+			@NotBlank String email,
+			@NonNull Integer code
+	) {
 	}
 
 	public record UserAccountSignInRequestDto(

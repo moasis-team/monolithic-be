@@ -1,6 +1,7 @@
 package site.moasis.monolithicbe.controller.useraccount;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import site.moasis.monolithicbe.domain.useraccount.TokenManager;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
+import site.moasis.monolithicbe.domain.useraccount.service.UserEmailService;
 
 import java.util.HashMap;
 
@@ -24,6 +26,7 @@ public class UserAccountController {
 
 	private final UserAccountReadService userAccountReadService;
 	private final UserAccountWriteService userAccountWriteService;
+	private final UserEmailService userEmailService;
 
 	@PostMapping("/signin")
 	public ResponseEntity<CommonResponse<?>> signIn(@Valid @RequestBody UserAccountSignInRequestDto userAccountSignInRequestDto) {
@@ -60,5 +63,17 @@ public class UserAccountController {
 		tokenObject.put("accessToken", dto.accessToken());
 
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "success"));
+
+	@GetMapping("/auth/code")
+	public ResponseEntity<CommonResponse<?>> getCode(@NotBlank String email) {
+		userEmailService.sendCode(email);
+		return ResponseEntity.ok(CommonResponse.success(email));
+	}
+
+	@PostMapping("/auth/certificate")
+	public ResponseEntity<CommonResponse<?>> certificateCode(@RequestBody EmailCertificationRequestDto emailCertificationRequestDto) {
+		userEmailService.certificate(emailCertificationRequestDto.email(), emailCertificationRequestDto.code());
+		return ResponseEntity.ok(CommonResponse.success("이메일 인증 완료"));
+
 	}
 }
