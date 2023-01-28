@@ -30,10 +30,11 @@ public class CommentWriteService{
         return CommentInfoMapper.INSTANCE.toCommentInfo(commentRepository.save(comment));
     }
 
-    public UUID deleteComment(UUID commentId){
-        commentRepository.findById(commentId).orElseThrow(() ->
+    public UUID dropOne(UUID commentId){
+        commentRepository.selectById(commentId).orElseThrow(() -> 
                 new BusinessException(ErrorCode.NOT_FOUND, "comment.byId", List.of(commentId.toString())));
-        commentRepository.deleteById(commentId);
+        commentRepository.deleteByCommentId(commentId);
+        
         return commentId;
     }
 }
