@@ -17,6 +17,7 @@ public enum ErrorCode {
 
     // 401 Unauthorized
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
+    CODE_MISMATCH(HttpStatus.UNAUTHORIZED),
 
     // 403 Forbidden
     FORBIDDEN(HttpStatus.FORBIDDEN),
