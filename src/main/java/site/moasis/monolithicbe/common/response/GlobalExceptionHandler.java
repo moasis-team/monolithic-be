@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/common/response/GlobalExceptionHandler.java
-package site.moasis.monolithicbe.common.response;
-=======
-
-
 package site.moasis.monolithicbe.common.exception;
->>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/common/exception/GlobalExceptionHandler.java
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +13,6 @@ import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ConstraintViolationResolver;
 import site.moasis.monolithicbe.common.response.CommonResponse;
 import site.moasis.monolithicbe.common.validator.ValidationResult;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
