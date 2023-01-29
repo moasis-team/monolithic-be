@@ -28,6 +28,7 @@ dependencies {
     implementation 'com.google.guava:guava:28.2-jre'
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'

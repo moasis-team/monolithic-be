@@ -33,11 +33,4 @@ public class AppProperties {
         private String refresh_token_secret;
         private Long refresh_token_validity_in_seconds;
     }
-
-    @Bean
-    public ResourceBundleMessageSource messageSource() {
-        ResourceBundleMessageSource source= new ResourceBundleMessageSource();
-        source.setUseCodeAsDefaultMessage(true);
-        return source;
-    }
 }
