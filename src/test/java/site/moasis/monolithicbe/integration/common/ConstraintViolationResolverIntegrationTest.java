@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.integration.Common;
+package site.moasis.monolithicbe.integration.common;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.Max;
