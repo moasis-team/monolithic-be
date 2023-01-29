@@ -1,6 +1,6 @@
 spring:
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
+    driver-class-name: ${DRIVER_CLASS_NAME}
     url: jdbc:${DB}://${HOST}:${PORT}/${NAME}?createDatabaseIfNotExist=true
     username: ${USER}
     password: ${PASSWORD}
@@ -8,29 +8,22 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: ${DDL-AUTO}
-    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    database-platform: ${DIALECT}
     properties:
       hibernate:
         jdbc:
-          time_zone: UTC
-
+          time_zone: ${TIME_ZONE}
+app:
   mail:
-    # host, port는 naver에서 정해준 값
-    host: smtp.naver.com
-    port: 465
-    # 본인 naver 계정정보 삽입
-    username: ${NAVER-MAIL-ID}
-    password: ${NAVER-MAIL-PASSWORD}
-    # 전송하기 위한 prop으로 ssl의 신뢰, 권한 등 사용허가
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.ssl.enable: true
-      mail.smtp.ssl.trust: smtp.naver.com
-      
-      
-jwt:
-  header: ${HEADER_STRING}
-  access-token-secret: ${ACCESS_TOKEN_SECRET}
-  access-token-validity-in-seconds: ${ACCESS_TOKEN_EXPIRE}
-  refresh-token-secret: ${REFRESH_TOKEN_SECRET}
-  refresh-token-validity-in-seconds: ${REFRESH_TOKEN_EXPIRE}
+    protocol: ${MAIL_PROTOCOL}
+    value: ${MAIL_VALUE}
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: ${MAIL_PORT}
+  jwt:
+    header: ${SECRET_HEADER}
+    access_token_secret: ${ACCESS_TOKEN_SECRET}
+    access_token_validity_in_seconds: ${ACCESS_TOKEN_VALIDITY_IN_SECONDS}
+    refresh_token_secret: ${REFRESH_TOKEN_SECRET}
+    refresh_token_validity_in_seconds: ${REFRESH_TOKEN_VALIDITY_IN_SECONDS}
