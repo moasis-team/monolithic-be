@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(CommonResponse.fail(fieldErrorDetails.toString(), ErrorCode.INVALID_PARAMETER));
+                .body(CommonResponse.fail(ErrorCode.INVALID_PARAMETER, fieldErrorDetails));
     }
 
     @ExceptionHandler(BusinessException.class)

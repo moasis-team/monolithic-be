@@ -83,10 +83,10 @@ public class CommentController {
                 .body(CommonResponse.success(commentInfo, "댓글 생성 완료"));
     }
 
-    @DeleteMapping("/comment/id/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @Operation(summary = "id를 통한 댓글 삭제")
     public ResponseEntity<CommonResponse<?>> deleteOne(@PathVariable("commentId") UUID commentId) {
-        var commentInfo = writeService.dropOne(commentId);
+        var commentInfo = writeService.deleteComment(commentId);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(CommonResponse.success(null, commentInfo + "번 댓글 삭제 완료"));

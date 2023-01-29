@@ -1,8 +1,10 @@
 package site.moasis.monolithicbe.domain.useraccount;
 
+import com.google.common.net.HttpHeaders;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,29 +12,30 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class TokenProvider {
+public abstract class TokenManager {
 
-	protected static final String AUTHORITIES_KEY = "auth";
-	protected final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-	protected final String secret;
-	protected final long tokenValidityInMilliseconds;
-	protected Key key;
+	private static final String AUTHORITIES_KEY = "auth";
+	private final Logger logger = LoggerFactory.getLogger(AccessTokenManager.class);
+	private final long tokenValidityInMilliseconds;
+	private final Key key;
 
 
-	public TokenProvider(String secret, long tokenValidityInSeconds) {
-		this.secret = secret;
+	public TokenManager(String tokenSecret, Long tokenValidityInSeconds)
+	{
 		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-		byte[] keyBytes = Decoders.BASE64.decode(secret);
+		byte[] keyBytes = Decoders.BASE64.decode(tokenSecret);
 		this.key = Keys.hmacShaKeyFor(keyBytes);
-
 	}
+
 
 	public String createToken(Authentication authentication) {
 		String authorities = authentication.getAuthorities().stream()
@@ -82,5 +85,21 @@ public class TokenProvider {
 			logger.info("JWT 토큰이 잘못되었습니다.");
 		}
 		return false;
+	}
+
+	public static String getTokenFromRequest(HttpServletRequest request) {
+		String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
+	}
+
+	public static String getTokenFromHeader(org.springframework.http.HttpHeaders headers) {
+		String bearerToken = Objects.requireNonNull(headers.get(org.springframework.http.HttpHeaders.AUTHORIZATION)).get(0);
+		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+			return bearerToken.substring(7);
+		}
+		return null;
 	}
 }

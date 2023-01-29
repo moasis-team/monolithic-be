@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.CorsFilter;
 import site.moasis.monolithicbe.domain.useraccount.JwtAccessDeniedHandler;
 import site.moasis.monolithicbe.domain.useraccount.JwtAuthenticationEntryPoint;
-import site.moasis.monolithicbe.domain.useraccount.TokenProvider;
+import site.moasis.monolithicbe.domain.useraccount.AccessTokenManager;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -25,7 +25,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 	private final CorsFilter corsFilter;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-	private final TokenProvider tokenProvider;
+	private final AccessTokenManager accessTokenManager;
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -47,7 +47,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 			.anyRequest().permitAll()
 
 			.and()
-			.apply(new JwtSecurityConfig(tokenProvider));
+			.apply(new JwtSecurityConfig(accessTokenManager));
 
 		return http.build();
 	}

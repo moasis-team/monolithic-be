@@ -19,22 +19,22 @@ public class CommentReadService{
     private final CommentRepository commentRepository;
 
     public CommentResponseDto selectAll(){
-        return new CommentResponseDto(commentRepository.findAll());
+        return new CommentResponseDto(commentRepository.selectAll());
     }
 
     public CommentOneDto selectOne(UUID commentId){
         return new CommentOneDto(
-                Optional.ofNullable(commentRepository.findById(commentId)
+                Optional.ofNullable(commentRepository.selectById(commentId)
                         .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND))));
     }
 
     public CommentResponseDto selectByArticle(UUID articleId){
         return new CommentResponseDto(
-                commentRepository.findByArticleId(articleId));
+                commentRepository.selectByArticleId(articleId));
     }
 
     public CommentResponseDto selectByUser(UUID userId){
         return new CommentResponseDto(
-                commentRepository.findByUserId(userId));
+                commentRepository.selectByUserId(userId));
     }
 }

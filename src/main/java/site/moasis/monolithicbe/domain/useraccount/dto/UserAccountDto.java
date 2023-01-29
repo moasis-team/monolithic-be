@@ -1,5 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.NonNull;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 
@@ -26,6 +28,12 @@ public record UserAccountDto() {
 	    }
 	}
 
+	public record EmailCertificationRequestDto(
+			@NotBlank String email,
+			@NonNull Integer code
+	) {
+	}
+
 	public record UserAccountSignInRequestDto(
 			String email,
 			String password
@@ -33,10 +41,21 @@ public record UserAccountDto() {
 	}
 
 	public record UserAccountSignInResponseDto(
-			String accessToken
+			String accessToken,
+			String refreshToken
 	) {
-		public static UserAccountSignInResponseDto toDto(String accessToken) {
-			return new UserAccountSignInResponseDto(accessToken);
+		public static UserAccountSignInResponseDto toDto(String accessToken, String refreshToken) {
+			return new UserAccountSignInResponseDto(accessToken, refreshToken);
 		}
 	}
+
+	public record ReissueTokenResponseDto(
+			String accessToken,
+			String refreshToken
+	) {
+		public static ReissueTokenResponseDto toDto(String accessToken, String refreshToken) {
+			return new ReissueTokenResponseDto(accessToken, refreshToken);
+		}
+	}
+
 }

@@ -8,6 +8,8 @@ import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.Comment;
 import site.moasis.monolithicbe.infrastructure.CommentRepository;
+
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -28,9 +30,11 @@ public class CommentWriteService{
         return CommentInfoMapper.INSTANCE.toCommentInfo(commentRepository.save(comment));
     }
 
-    public UUID dropOne(UUID commentId){
-        commentRepository.findById(commentId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND));
-        commentRepository.deleteById(commentId);
+    public UUID deleteComment(UUID commentId){
+        commentRepository.selectById(commentId).orElseThrow(() -> 
+                new BusinessException(ErrorCode.NOT_FOUND, "comment.byId", List.of(commentId.toString())));
+        commentRepository.deleteByCommentId(commentId);
+        
         return commentId;
     }
 }
