@@ -55,7 +55,7 @@ public class UserAccountController {
 	}
 
 	@PatchMapping("/token")
-	public ResponseEntity<CommonResponse<?>> reIssueToken(@RequestHeader HttpHeaders headers, @CookieValue(name = "refreshToken") String refreshToken){
+	public ResponseEntity<CommonResponse<?>> reIssueToken(@RequestHeader HttpHeaders headers, @CookieValue(name = "refreshToken") String refreshToken) {
 		String accessToken = TokenManager.getTokenFromHeader(headers);
 		ReissueTokenResponseDto dto = this.userAccountWriteService.reissueToken(accessToken, refreshToken);
 
@@ -63,6 +63,7 @@ public class UserAccountController {
 		tokenObject.put("accessToken", dto.accessToken());
 
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(tokenObject, "success"));
+	}
 
 	@GetMapping("/auth/code")
 	public ResponseEntity<CommonResponse<?>> getCode(@NotBlank String email) {
