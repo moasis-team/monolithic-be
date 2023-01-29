@@ -1,12 +1,12 @@
 package site.moasis.monolithicbe.domain.useraccount;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import site.moasis.monolithicbe.configuration.AppProperties;
 
 @Component
 public class RefreshTokenManager extends TokenManager {
-	public RefreshTokenManager(@Value("${jwt.refresh-token-secret}") String tokenSecret,
-	                           @Value("${jwt.refresh-token-validity-in-seconds}") Long tokenValidityInSeconds){
-		super(tokenSecret, tokenValidityInSeconds);
+	public RefreshTokenManager(AppProperties prop)
+	{
+		super(prop.getJwt().getAccess_token_secret(), prop.getJwt().getAccess_token_validity_in_seconds());
 	}
 }

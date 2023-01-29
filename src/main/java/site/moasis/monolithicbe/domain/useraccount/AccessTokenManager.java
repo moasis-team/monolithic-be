@@ -1,13 +1,13 @@
 package site.moasis.monolithicbe.domain.useraccount;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import site.moasis.monolithicbe.configuration.AppProperties;
 
 @Component
 public class AccessTokenManager extends TokenManager {
-	public AccessTokenManager(@Value("${jwt.access-token-secret}") String tokenSecret,
-	                           @Value("${jwt.access-token-validity-in-seconds}") Long tokenValidityInSeconds)
+
+	public AccessTokenManager(AppProperties prop)
 	{
-		super(tokenSecret, tokenValidityInSeconds);
+		super(prop.getJwt().getAccess_token_secret(), prop.getJwt().getAccess_token_validity_in_seconds());
 	}
 }
