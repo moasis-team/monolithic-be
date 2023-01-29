@@ -23,6 +23,7 @@ public class UserAccount {
 	private String phoneNumber;
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	private String refreshToken;
 
 	@Builder
 	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
@@ -35,5 +36,9 @@ public class UserAccount {
 
 	public static UserAccount create(String email, String password, String name, String phoneNumber, UserRole role) {
 		return new UserAccount(email, password, name, phoneNumber, role);
+	}
+
+	public void changeRefreshToken(String refreshToken){
+		this.refreshToken = refreshToken;
 	}
 }
