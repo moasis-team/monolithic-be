@@ -5,23 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
-<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/domain/comment/service/CommentWriteService.java
-import site.moasis.monolithicbe.common.response.ErrorCode;
-import site.moasis.monolithicbe.domain.comment.entity.Comment;
-import site.moasis.monolithicbe.domain.comment.repository.CommentRepository;
-import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
-
-=======
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.Comment;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 import site.moasis.monolithicbe.infrastructure.CommentRepository;
-
 import java.util.List;
->>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/service/CommentWriteService.java
 import java.util.UUID;
-
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentCreateDto;
 
 @Slf4j
@@ -52,7 +42,6 @@ public class CommentWriteService{
         return commentId;
     }
 
-<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/domain/comment/service/CommentWriteService.java
     public Long dropByUser(Long userId) {
         commentRepository.deleteByUserId(userId);
         return userId;
@@ -61,10 +50,9 @@ public class CommentWriteService{
     public Long dropByArticle(Long articleId) {
         commentRepository.deleteByArticleId(articleId);
         return articleId;
-=======
+
     private UserAccount getUserById(UUID userId) {
         return userAccountRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND, "user.byId", List.of(userId.toString())));
->>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/service/CommentWriteService.java
     }
 }
