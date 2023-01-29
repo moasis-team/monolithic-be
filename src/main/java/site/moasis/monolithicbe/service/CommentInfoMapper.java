@@ -12,5 +12,6 @@ public interface CommentInfoMapper {
 
     @Mapping(target = "commentId", source = "comment.id")
     @Mapping(target = "createdAt", source = "comment.createdAt")
+    @Mapping(target = "userName", source = "comment.userName")
     CommentInfo toCommentInfo(Comment comment);
 }
