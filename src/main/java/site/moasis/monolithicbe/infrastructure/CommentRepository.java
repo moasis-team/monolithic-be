@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface CommentRepository extends JpaRepository<Comment, UUID> {
     List<Comment> findByArticleId(UUID articleId);
     List<Comment> findByUserId(UUID userId);
 

@@ -3,6 +3,8 @@ package site.moasis.monolithicbe.domain.useraccount.dto;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 
+import java.util.UUID;
+
 public record UserAccountDto() {
 	public record UserAccountJoinRequestDto(
 			String email,
@@ -12,7 +14,7 @@ public record UserAccountDto() {
 	}
 
 	public record UserAccountJoinResponseDto(
-	        Long id,
+	        UUID id,
 	        String email,
 	        String name,
 	        String phoneNumber,

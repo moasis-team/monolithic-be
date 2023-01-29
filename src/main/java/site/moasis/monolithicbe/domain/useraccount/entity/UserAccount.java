@@ -1,9 +1,11 @@
 package site.moasis.monolithicbe.domain.useraccount.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
+
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -11,8 +13,9 @@ import site.moasis.monolithicbe.domain.useraccount.UserRole;
 public class UserAccount {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@EqualsAndHashCode.Include
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
 	@Column(unique = true)
 	private String email;
 	private String password;
@@ -21,6 +24,7 @@ public class UserAccount {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 
+	@Builder
 	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
 		this.email = email;
 		this.password = password;
