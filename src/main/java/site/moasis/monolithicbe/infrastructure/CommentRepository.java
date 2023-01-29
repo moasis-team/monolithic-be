@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface CommentRepository extends JpaRepository<Comment, UUID> {
 
     @Query(value = "select c from Comment as c where c.articleId = :articleId")
     List<Comment> selectByArticleId(@Param("articleId")UUID articleId);
