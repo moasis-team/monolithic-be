@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/common/response/GlobalExceptionHandler.java
 package site.moasis.monolithicbe.common.response;
+=======
+
+
+package site.moasis.monolithicbe.common.exception;
+>>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/common/exception/GlobalExceptionHandler.java
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
@@ -44,7 +50,7 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(CommonResponse.fail(fieldErrorDetails.toString(), ErrorCode.INVALID_PARAMETER));
+                .body(CommonResponse.fail(ErrorCode.INVALID_PARAMETER, fieldErrorDetails));
     }
 
     @ExceptionHandler(BusinessException.class)

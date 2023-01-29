@@ -32,12 +32,16 @@ public class Comment extends DateTimeEntity {
     @NonNull
     private UUID userId;
     @Column
+    private String userName;
+
+    @Column
     private Boolean isDeleted = false;
 
     @Builder
-    public Comment(String content, UUID articleId, UUID userId) {
+    public Comment(String content, UUID articleId, UUID userId, String userName) {
         this.content = content;
         this.articleId = articleId;
         this.userId = userId;
+        this.userName = userName;
     }
 }

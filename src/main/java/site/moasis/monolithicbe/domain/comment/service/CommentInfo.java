@@ -17,7 +17,12 @@ public class CommentInfo {
     private String content;
     private LocalDateTime createdAt;
     private Boolean isDeleted;
+<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/domain/comment/service/CommentInfo.java
     private String nickname;
+=======
+    private String userName;
+
+>>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/service/CommentInfo.java
     public void blindDescription(String content) {
         this.content = content;
     }

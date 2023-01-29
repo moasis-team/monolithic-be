@@ -9,12 +9,19 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/application/controller/CommentController.java
 import site.moasis.monolithicbe.common.response.CommonResponse;
 import site.moasis.monolithicbe.domain.comment.service.CommentCommand;
 import site.moasis.monolithicbe.domain.comment.service.CommentInfo;
 import site.moasis.monolithicbe.domain.comment.service.CommentReadService;
 import site.moasis.monolithicbe.domain.comment.service.CommentWriteService;
 
+=======
+import site.moasis.monolithicbe.controller.common.CommonResponse;
+import site.moasis.monolithicbe.service.CommentInfo;
+import site.moasis.monolithicbe.service.CommentReadService;
+import site.moasis.monolithicbe.service.CommentWriteService;
+>>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/controller/comment/CommentController.java
 import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentCreateDto;
