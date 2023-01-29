@@ -9,21 +9,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-<<<<<<< Updated upstream:src/main/java/site/moasis/monolithicbe/application/controller/CommentController.java
 import site.moasis.monolithicbe.common.response.CommonResponse;
 import site.moasis.monolithicbe.domain.comment.service.CommentCommand;
 import site.moasis.monolithicbe.domain.comment.service.CommentInfo;
 import site.moasis.monolithicbe.domain.comment.service.CommentReadService;
 import site.moasis.monolithicbe.domain.comment.service.CommentWriteService;
-
-=======
 import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.service.CommentInfo;
 import site.moasis.monolithicbe.service.CommentReadService;
 import site.moasis.monolithicbe.service.CommentWriteService;
->>>>>>> Stashed changes:src/main/java/site/moasis/monolithicbe/controller/comment/CommentController.java
 import java.util.UUID;
-
 import static site.moasis.monolithicbe.domain.comment.dto.CommentDto.CommentCreateDto;
 
 @RestController
@@ -109,22 +104,4 @@ public class CommentController {
                 .status(HttpStatus.OK)
                 .body(CommonResponse.success(null, commentInfo + "번 댓글 삭제 완료"));
     }
-
-//    @PostMapping("/user/{userId}")
-//    @Operation(summary = "해당 user가 작성한 댓글 삭제")
-//    public ResponseEntity<CommonResponse<?>> deleteByUser(@PathVariable Long userId){
-//        var commentInfo = writeService.dropByUser(userId);
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(CommonResponse.success(null, "Id가 " + commentInfo + "인 유저가 작성한 댓글 삭제 성공"));
-//    }
-
-//    @PostMapping("/article/{articleId}")
-//    @Operation(summary = "해당 article에 속한 댓글 삭제")
-//    public ResponseEntity<CommonResponse<?>> deleteByArticle(@PathVariable Long articleId){
-//        var articleInfo = writeService.dropByArticle(articleId);
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(CommonResponse.success(null, articleInfo + "번 게시물의 댓글 삭제 성공"));
-//    }
 }
