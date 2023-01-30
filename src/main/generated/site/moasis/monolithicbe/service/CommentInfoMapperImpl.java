@@ -5,8 +5,8 @@ import site.moasis.monolithicbe.domain.comment.Comment;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-01-27T23:07:40+0900",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 17.0.5 (Amazon.com Inc.)"
+    date = "2023-01-29T22:01:20+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 19.0.2 (Oracle Corporation)"
 )
 public class CommentInfoMapperImpl implements CommentInfoMapper {
 
@@ -20,6 +20,7 @@ public class CommentInfoMapperImpl implements CommentInfoMapper {
 
         commentInfo.setCommentId( comment.getId() );
         commentInfo.setCreatedAt( comment.getCreatedAt() );
+        commentInfo.setUserName( comment.getUserName() );
         commentInfo.setContent( comment.getContent() );
         commentInfo.setIsDeleted( comment.getIsDeleted() );
 
