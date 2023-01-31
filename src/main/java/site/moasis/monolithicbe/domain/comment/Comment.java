@@ -34,10 +34,24 @@ public class Comment extends DateTimeEntity {
     @Column
     private Boolean isDeleted = false;
 
+    @Transient
+    private Boolean isLiked;
+
+    @Transient
+    private Long likes;
+
     @Builder
     public Comment(String content, UUID articleId, UUID userId) {
         this.content = content;
         this.articleId = articleId;
         this.userId = userId;
+    }
+
+    public void setIsLiked(Boolean liked) {
+        isLiked = liked;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }
