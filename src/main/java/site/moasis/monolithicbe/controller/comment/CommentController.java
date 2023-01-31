@@ -42,6 +42,19 @@ public class CommentController {
                 .body(CommonResponse.success(commentInfo, "댓글 조회 성공"));
     }
 
+    @PostMapping("/articles/{articleId}/comments/{commentId}")
+    @Operation(summary = "댓글 좋아요 또는 취소")
+    public ResponseEntity<CommonResponse<?>> likeComment(
+            @PathVariable("articleId") UUID articleId,
+            @PathVariable("commentId") UUID commentId
+    ) {
+        Boolean commentInfo = writeService.likeComment(articleId, commentId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(CommonResponse.success(commentInfo, "현재 상태 : " + commentInfo));
+    }
+
+
     @GetMapping("/comments/users/{userId}")
     @Operation(summary = "user_id를 통한 댓글 조회")
     public ResponseEntity<CommonResponse<?>> findByUser(@PathVariable UUID userId) {
@@ -60,18 +73,14 @@ public class CommentController {
                 .body(CommonResponse.success(commentInfo, articleId + "번 게시글 댓글 조회 성공"));
     }
 
-    @PostMapping("/users/{userId}/articles/{articleId}/comments")
+    @PostMapping("/articles/{articleId}/comments")
     @Operation(summary = "댓글 생성")
     public ResponseEntity<CommonResponse<?>> registerComment(
-            @PathVariable UUID userId,
             @PathVariable UUID articleId,
             @RequestBody RegisterCommentRequest registerCommentRequest) {
 
-        UUID loginUserId = userId;
-
         var command = RegisterCommentCommand
                 .builder()
-                .userId(loginUserId)
                 .articleId(articleId)
                 .content(registerCommentRequest.getContent())
                 .build();
