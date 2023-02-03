@@ -2,6 +2,7 @@ package site.moasis.monolithicbe.domain.comment;
 
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,10 +11,11 @@ import java.util.UUID;
 @Entity
 @Getter
 @NoArgsConstructor
-public class CommentLikes {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+public class CommentLike {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id @GeneratedValue(generator = "UUID")
+    private UUID id;
 
     @Column
     private UUID commentId;
@@ -25,7 +27,7 @@ public class CommentLikes {
     private String createBy;
 
     @Builder
-    public CommentLikes(UUID commentId, UUID articleId, String createBy) {
+    public CommentLike(UUID commentId, UUID articleId, String createBy) {
         this.commentId = commentId;
         this.articleId = articleId;
         this.createBy = createBy;

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.Comment;
-import site.moasis.monolithicbe.domain.comment.CommentLikes;
+import site.moasis.monolithicbe.domain.comment.CommentLike;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 import site.moasis.monolithicbe.infrastructure.CommentLikesRepository;
 import site.moasis.monolithicbe.infrastructure.CommentRepository;
@@ -60,7 +60,7 @@ public class CommentWriteService{
         if (exist)
             commentLikesRepository.deleteLikes(commentId, userEmail);
         else
-            commentLikesRepository.save(new CommentLikes(commentId, articleId, userEmail));
+            commentLikesRepository.save(new CommentLike(commentId, articleId, userEmail));
 
         comment.setIsLiked(!exist);
         return comment.getIsLiked();
