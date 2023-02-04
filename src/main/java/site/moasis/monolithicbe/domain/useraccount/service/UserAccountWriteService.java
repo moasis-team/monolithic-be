@@ -37,7 +37,7 @@ public class UserAccountWriteService {
 
 	private void checkDuplicatedEmail(String email){
 		if(userAccountRepository.existsByEmail(email)){
-			throw new BusinessException(ErrorCode.DUPLICATE);
+			throw new BusinessException(ErrorCode.DUPLICATE, "user.byId", null);
 		};
 	}
 	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
