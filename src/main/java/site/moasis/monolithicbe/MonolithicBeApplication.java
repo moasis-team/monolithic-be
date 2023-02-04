@@ -6,9 +6,11 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import site.moasis.monolithicbe.domain.article.entity.Article;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
+import site.moasis.monolithicbe.infrastructure.article.ArticleRepository;
 
 @EnableJpaAuditing
 @SpringBootApplication
@@ -16,6 +18,7 @@ import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountReposit
 public class MonolithicBeApplication implements ApplicationRunner {
 
 	private final UserAccountRepository userAccountRepository;
+	private final ArticleRepository articleRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MonolithicBeApplication.class, args);
@@ -29,6 +32,18 @@ public class MonolithicBeApplication implements ApplicationRunner {
 				.password("0000")
 				.phoneNumber("01038951306")
 				.role(UserRole.ROLE_ADMIN)
+				.build());
+
+		userAccountRepository.save(UserAccount.builder()
+				.email("test")
+				.name("test")
+				.password("test")
+				.phoneNumber("test")
+				.role(UserRole.ROLE_USER)
+				.build());
+
+		articleRepository.save(Article.builder()
+				.content("게시글 예시 내용")
 				.build());
 	}
 }

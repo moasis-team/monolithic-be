@@ -33,4 +33,25 @@ public class CommentCommand {
             validateSelf();
         }
     }
+
+    @Getter
+    @EqualsAndHashCode(callSuper = false)
+    public static class DeleteCommentCommand extends SelfValidating<DeleteCommentCommand> {
+        @NotNull
+        private UUID userId;
+
+        @NotNull
+        private UUID articleId;
+
+        @NotNull
+        private UUID commentId;
+
+        @Builder
+        public DeleteCommentCommand(UUID userId, UUID articleId, UUID commentId) {
+            this.userId = userId;
+            this.articleId = articleId;
+            this.commentId = commentId;
+            validateSelf();
+        }
+    }
 }

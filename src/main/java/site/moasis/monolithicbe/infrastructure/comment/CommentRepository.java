@@ -1,4 +1,4 @@
-package site.moasis.monolithicbe.infrastructure;
+package site.moasis.monolithicbe.infrastructure.comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
