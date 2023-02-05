@@ -11,12 +11,13 @@ import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.comment.Comment;
 import site.moasis.monolithicbe.infrastructure.CommentLikesRepository;
-import site.moasis.monolithicbe.infrastructure.CommentRepository;
+import site.moasis.monolithicbe.infrastructure.comment.CommentRepository;
 
 import java.util.List;
 import java.util.UUID;
-import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentResponseDto;
+
 import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentOneDto;
+import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentResponseDto;
 
 @Slf4j
 @Service
@@ -26,13 +27,6 @@ public class CommentReadService{
 
     private final CommentRepository commentRepository;
     private final CommentLikesRepository commentLikesRepository;
-
-    public CommentResponseDto selectAll(){
-        List<Comment> comments = commentRepository.selectAll();
-        comments.forEach(c -> c.setLikes(getLikes(c.getId())));
-        comments.forEach(c->setUserLikes(c.getId(), c));
-        return new CommentResponseDto(comments);
-    }
 
     public CommentOneDto selectOne(UUID commentId){
         Comment comment = commentRepository.selectById(commentId).orElseThrow(

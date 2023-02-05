@@ -9,7 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.domain.comment.Comment;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
-import site.moasis.monolithicbe.infrastructure.CommentRepository;
+import site.moasis.monolithicbe.infrastructure.comment.CommentRepository;
 
 import java.util.UUID;
 
@@ -36,7 +36,6 @@ class CommentReadServiceTest {
         randomUUID = UUID.randomUUID();
         Comment newComment = Comment.builder()
                 .articleId(randomUUID)
-                .userId(randomUUID)
                 .content(randomUUID.toString())
                 .build();
         Comment storedComment = commentRepository.save(newComment);
