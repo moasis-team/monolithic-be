@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'org.springframework.boot' version '3.0.1'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'com.palantir.docker' version '0.34.0'
@@ -28,11 +29,9 @@ dependencies {
     implementation 'com.google.guava:guava:28.2-jre'
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    testImplementation 'org.projectlombok:lombok:1.18.22'
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -55,6 +54,8 @@ dependencies {
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor('org.projectlombok:lombok')
+    testImplementation 'org.projectlombok:lombok:1.18.22'
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -91,6 +92,51 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('jacoco')
+}
+
+jacocoTestReport {
+    reports {
+        html.required = true
+        xml.required = false
+        csv.required = false
+
+        html.outputLocation = layout.buildDirectory.dir('jacoco/jacocoHtml')
+    }
+
+    dependsOn test
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    // QueryDSL의 Qdomain 클래스를 커버리지 측정 대상에서 제외하기
+    def Qdomains = []
+
+    for (qPattern in '*.QA'..'*.QZ') {
+        Qdomains.add(qPattern + '*')
+    }
+
+    // QueryDSL의 Qdomain 클래스를 커버리지 측정 대상에서 제외하기
+
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.00
+            }
+
+            excludes = ["*Command", "*Query"] + Qdomains
+        }
+    }
 }
 
 jar {

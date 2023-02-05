@@ -10,8 +10,8 @@ src/main/resources/application-dev.yml
 
 src/main/resources/application-local.yml
 src/main/resources/application-test.yml
-
 src/main/generated/site/moasis/monolithicbe/domain/comment/service/CommentInfoMapperImpl.java
+src/test/resources/application.yml
 
 # User-specific stuff
 .idea/**/workspace.xml
