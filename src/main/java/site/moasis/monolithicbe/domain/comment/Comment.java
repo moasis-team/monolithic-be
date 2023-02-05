@@ -17,8 +17,9 @@ public class Comment extends DateTimeEntity {
 
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "comment_id")
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "comment_id", columnDefinition = "BINARY(16)")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column
