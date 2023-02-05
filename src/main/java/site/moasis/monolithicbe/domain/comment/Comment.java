@@ -2,7 +2,6 @@ package site.moasis.monolithicbe.domain.comment;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import site.moasis.monolithicbe.domain.common.DateTimeEntity;
 
@@ -33,14 +32,27 @@ public class Comment extends DateTimeEntity {
     @Column
     private Boolean isDeleted = false;
 
+    @Transient
+    private Boolean isLiked;
+
+    @Transient
+    private Long likes;
+
     @Column
     private String userName;
 
     @Builder
-    public Comment(String content, UUID articleId, UUID userId, String userName) {
+    public Comment(String content, UUID articleId, String userName) {
         this.content = content;
         this.articleId = articleId;
-        this.userId = userId;
         this.userName = userName;
+    }
+
+    public void setIsLiked(Boolean liked) {
+        isLiked = liked;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
     }
 }
