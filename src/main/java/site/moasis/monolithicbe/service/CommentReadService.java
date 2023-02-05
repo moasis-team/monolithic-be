@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
-import site.moasis.monolithicbe.infrastructure.CommentRepository;
+import site.moasis.monolithicbe.infrastructure.comment.CommentRepository;
 import java.util.Optional;
 import java.util.UUID;
 import static site.moasis.monolithicbe.domain.comment.CommentDto.CommentResponseDto;

@@ -14,6 +14,7 @@ public class UserAccount {
 
 	@Id
 	@EqualsAndHashCode.Include
+	@Column(name = "useraccount_id")
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	@Column(unique = true)
