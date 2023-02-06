@@ -15,4 +15,5 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, UUID> 
 	Optional<UUID> selectIdByEmail(@Param("email") String email);
 	boolean existsByEmail(String email);
 	Optional<UserAccount> findByRefreshToken(String refreshToken);
+	Optional<UserAccount> findByName(String name);
 }
