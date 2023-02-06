@@ -7,10 +7,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
-import site.moasis.monolithicbe.domain.useraccount.entity.NaverUserInfo;
-import site.moasis.monolithicbe.domain.useraccount.entity.OAuth2UserInfo;
-import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
-import site.moasis.monolithicbe.domain.useraccount.entity.UserDetailsImpl;
+import site.moasis.monolithicbe.domain.useraccount.entity.*;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 
 import java.util.Optional;
@@ -32,7 +29,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 		if (provider.equals("naver")) {
 			oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttributes());
-
+		} else if(provider.equals("google")){
+			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+		}else if(provider.equals("kakao")){
+			oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
 		}
 
 		String providerId = oAuth2UserInfo.getProviderId();
