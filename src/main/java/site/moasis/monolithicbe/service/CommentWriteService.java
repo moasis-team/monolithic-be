@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.article.entity.Article;
+import site.moasis.monolithicbe.domain.article.repository.ArticleRepository;
 import site.moasis.monolithicbe.domain.comment.Comment;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
-import site.moasis.monolithicbe.infrastructure.article.ArticleRepository;
 import site.moasis.monolithicbe.infrastructure.comment.CommentRepository;
 
 import java.util.List;
