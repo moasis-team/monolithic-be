@@ -15,8 +15,6 @@ public class CommentCommand {
     @Getter
     @EqualsAndHashCode(callSuper = false)
     public static class RegisterCommentCommand extends SelfValidating<RegisterCommentCommand> {
-        @NotNull
-        private UUID userId;
 
         @NotNull
         private UUID articleId;
@@ -26,10 +24,30 @@ public class CommentCommand {
         private String content;
 
         @Builder
-        public RegisterCommentCommand(UUID userId, UUID articleId, String content) {
-            this.userId = userId;
+        public RegisterCommentCommand(UUID articleId, String content) {
             this.articleId = articleId;
             this.content = content;
+            validateSelf();
+        }
+    }
+
+    @Getter
+    @EqualsAndHashCode(callSuper = false)
+    public static class DeleteCommentCommand extends SelfValidating<DeleteCommentCommand> {
+        @NotNull
+        private UUID userId;
+
+        @NotNull
+        private UUID articleId;
+
+        @NotNull
+        private UUID commentId;
+
+        @Builder
+        public DeleteCommentCommand(UUID userId, UUID articleId, UUID commentId) {
+            this.userId = userId;
+            this.articleId = articleId;
+            this.commentId = commentId;
             validateSelf();
         }
     }

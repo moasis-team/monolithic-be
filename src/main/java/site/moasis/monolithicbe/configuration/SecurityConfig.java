@@ -17,10 +17,12 @@ import site.moasis.monolithicbe.domain.useraccount.JwtAccessDeniedHandler;
 import site.moasis.monolithicbe.domain.useraccount.JwtAuthenticationEntryPoint;
 import site.moasis.monolithicbe.domain.useraccount.service.PrincipalOauth2UserService;
 
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+
 	private final CorsFilter corsFilter;
 	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;

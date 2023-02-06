@@ -17,7 +17,7 @@ public class CommentInfo {
     private String content;
     private LocalDateTime createdAt;
     private Boolean isDeleted;
-    private String nickname;
+    private String userName;
 
     public void blindDescription(String content) {
         this.content = content;

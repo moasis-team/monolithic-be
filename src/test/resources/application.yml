@@ -1,16 +1,30 @@
 spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:../junit-test
+    username: sa
+    password:
+    h2:
+      console:
+        enabled: true
+        path: /h2-console
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: 'create-drop'
+    output:
+      ansi:
+        enabled: always
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
   messages:
     basename: business-errors, validation-errors, test-validation-errors
     encoding: UTF-8
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
-  jpa:
-    properties:
-      hibernate:
-        format_sql: true
-        highlight_sql: true
-    open-in-view: false
   servlet:
     multipart:
       max-file-size: 50MB
@@ -24,7 +38,17 @@ logging:
           descriptor:
             sql: trace
 
-jwt:
-  header: Authorization
-  secret: cnV0eXdlb3JpdHV3eWVyb3RpdXdleXJ0b2l1d2V5cnRvd2VpdXJ0eXdhaXNkamZvaWF6eGNpdm5xd2Vpb2lhZHNmCg==
-  access-token-validity-in-seconds: 600 # 10 min
+app:
+  mail:
+    protocol: smtp
+    value: true
+    host: smtp.naver.com
+    username: moasis@moasis.com
+    password: moasis@moasis.com
+    port: 465
+  jwt:
+    header: Authorization
+    access_token_secret: cnV0eXdlb3JpdHV3eWVyb3RpdXdleXJ0b2l1d2V5cnRvd2VpdXJ0eXdhaXNkamZvaWF6eGNpdm5xd2Vpb2lhZHNmCg==
+    access_token_validity_in_seconds: 600
+    refresh_token_secret: cnV0eXdlb3JpdHV3eWVyb3RpdXdleXJ0b2l1d2V5cnRvd2VpdXJ0eXdhaXNkamZvaWF6eGNpdm5xd2Vpb2lhZHNmCg==
+    refresh_token_validity_in_seconds: 6000
