@@ -19,6 +19,7 @@ import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountReposit
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
@@ -120,8 +121,7 @@ public class UserAccountWriteService {
 		});
 	}
 
-	public void deleteUserAccount() {
-		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		this.userAccountRepository.deleteByEmail(authentication.getName());
+	public void deleteUserAccount(UUID userId) {
+		this.userAccountRepository.deleteById(userId);
 	}
 }
