@@ -1,6 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -122,6 +123,10 @@ public class UserAccountWriteService {
 	}
 
 	public void deleteUserAccount(UUID userId) {
-		this.userAccountRepository.deleteById(userId);
+		try {
+			this.userAccountRepository.deleteById(userId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new BusinessException(ErrorCode.INVALID_PARAMETER, "user.byCredential", List.of(String.valueOf(userId)));
+		}
 	}
 }
