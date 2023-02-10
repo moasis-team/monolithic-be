@@ -15,13 +15,13 @@ import java.util.UUID;
 @Getter
 @Entity
 @SQLDelete(sql = "UPDATE user_account SET is_deleted=true WHERE useraccount_id = ?")
+@Where(clause = "is_deleted = false")
 public class UserAccount {
 
 	@Id
 	@EqualsAndHashCode.Include
 	@Column(name = "useraccount_id")
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Where(clause = "is_deleted = false")
 	private UUID id;
 	@Column(unique = true)
 	private String email;
