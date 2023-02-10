@@ -1,8 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +20,7 @@ import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountReposit
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
@@ -120,5 +120,13 @@ public class UserAccountWriteService {
 		}, () -> {
 			throw new BusinessException(ErrorCode.NOT_FOUND);
 		});
+	}
+
+	public void deleteUserAccount(UUID userId) {
+		try {
+			this.userAccountRepository.deleteById(userId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new BusinessException(ErrorCode.INVALID_PARAMETER, "user.byCredential", List.of(String.valueOf(userId)));
+		}
 	}
 }

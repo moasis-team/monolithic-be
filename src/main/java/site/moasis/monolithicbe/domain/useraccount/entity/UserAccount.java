@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 
 import java.util.UUID;
@@ -12,6 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Entity
+@SQLDelete(sql = "UPDATE user_account SET is_deleted=true WHERE useraccount_id = ?")
+@Where(clause = "is_deleted = false")
 public class UserAccount {
 
 	@Id
@@ -29,6 +33,9 @@ public class UserAccount {
 	private String refreshToken;
 	private String provider;
 	private String providerId;
+	@Column
+	private Boolean isDeleted = false;
+
 
 	@Builder
 	private UserAccount(String email, String password, String name, String phoneNumber, UserRole role) {
