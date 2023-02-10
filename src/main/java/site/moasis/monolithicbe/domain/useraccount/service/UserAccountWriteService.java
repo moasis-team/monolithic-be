@@ -1,8 +1,6 @@
 package site.moasis.monolithicbe.domain.useraccount.service;
 
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -120,5 +118,10 @@ public class UserAccountWriteService {
 		}, () -> {
 			throw new BusinessException(ErrorCode.NOT_FOUND);
 		});
+	}
+
+	public void deleteUserAccount() {
+		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		this.userAccountRepository.deleteByEmail(authentication.getName());
 	}
 }

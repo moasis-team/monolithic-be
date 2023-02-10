@@ -108,4 +108,10 @@ public class UserAccountController {
 		System.out.println("로그인 성공");
 		return true;
 	}
+
+	@DeleteMapping()
+	public ResponseEntity<CommonResponse<?>> deleteUser() {
+		this.userAccountWriteService.deleteUserAccount();
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, "계정 삭제에 성공했습니다"));
+	}
 }
