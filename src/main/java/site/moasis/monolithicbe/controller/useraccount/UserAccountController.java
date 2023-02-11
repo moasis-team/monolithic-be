@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.TokenManager;
+import site.moasis.monolithicbe.domain.useraccount.UserAccountInfo;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserEmailService;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
@@ -107,5 +109,23 @@ public class UserAccountController {
 	public boolean loginCallBack(){
 		System.out.println("로그인 성공");
 		return true;
+	}
+
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> deleteUser(@PathVariable("userId") UUID userId) {
+		this.userAccountWriteService.deleteUserAccount(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정 삭제에 성공했습니다"));
+	}
+
+	@PatchMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId, @RequestBody UserAccountUpdateRequestDto userAccountUpdateRequestDto) {
+		this.userAccountWriteService.updateUserAccount(userId, userAccountUpdateRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정을 업데이트했습니다."));
+	}
+
+	@GetMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId) {
+		UserAccountInfo userAccountInfo = this.userAccountReadService.findUserAccount(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(userAccountInfo, userId + " 계정정보 조회에 성공했습니다."));
 	}
 }
