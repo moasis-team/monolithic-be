@@ -60,4 +60,8 @@ public record UserAccountDto() {
 		}
 	}
 
+	public record UserAccountUpdateRequestDto(String name, String phoneNumber) {
+	}
+
+
 }

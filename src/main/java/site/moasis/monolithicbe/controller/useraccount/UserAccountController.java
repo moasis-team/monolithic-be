@@ -115,4 +115,10 @@ public class UserAccountController {
 		this.userAccountWriteService.deleteUserAccount(userId);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정 삭제에 성공했습니다"));
 	}
+
+	@PatchMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId, @RequestBody UserAccountUpdateRequestDto userAccountUpdateRequestDto) {
+		this.userAccountWriteService.updateUserAccount(userId, userAccountUpdateRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정을 업데이트했습니다."));
+	}
 }
