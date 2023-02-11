@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
+import site.moasis.monolithicbe.common.util.Util;
 import site.moasis.monolithicbe.domain.useraccount.AccessTokenManager;
 import site.moasis.monolithicbe.domain.useraccount.RefreshTokenManager;
+import site.moasis.monolithicbe.domain.useraccount.UserAccountMapper;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
@@ -128,5 +130,14 @@ public class UserAccountWriteService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new BusinessException(ErrorCode.INVALID_PARAMETER, "user.byCredential", List.of(String.valueOf(userId)));
 		}
+	}
+
+	public void updateUserAccount(UUID userId, UserAccountUpdateRequestDto dto) {
+		Optional<UserAccount> userAccountOptional = this.userAccountRepository.findById(userId);
+		if (userAccountOptional.isEmpty()) {
+			throw new BusinessException(ErrorCode.INVALID_PARAMETER, "user.byCredential", List.of(String.valueOf(userId)));
+		}
+		UserAccount userAccountFromDto = UserAccountMapper.INSTANCE.fromUserAccountUpdateRequestDto(dto);
+		Util.copyNonNullProperties(userAccountFromDto, userAccountOptional.get());
 	}
 }
