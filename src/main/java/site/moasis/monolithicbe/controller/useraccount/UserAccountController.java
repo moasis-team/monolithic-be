@@ -56,7 +56,7 @@ public class UserAccountController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.success(UserAccountJoinResponseDto.toDto(savedUserAccount), "회원가입 완료"));
 	}
 
-	@PutMapping("/password")
+	@PatchMapping("/password")
 	public ResponseEntity<CommonResponse<?>> changePassword(@RequestBody String newPassword) {
 		UserAccount userAccount = userAccountWriteService.changePassword(newPassword);
 		return ResponseEntity.ok(CommonResponse.success(UserAccountJoinResponseDto.toDto(userAccount), "비밀번호 변경 완료"));
