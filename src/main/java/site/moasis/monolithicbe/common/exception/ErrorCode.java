@@ -14,6 +14,7 @@ public enum ErrorCode {
     // 400 Bad Request
     INVALID_PARAMETER(HttpStatus.BAD_REQUEST),
     ILLEGAL_STATE(HttpStatus.BAD_REQUEST),
+    ACCOUNT_MISMATCH(HttpStatus.BAD_REQUEST),
 
     // 401 Unauthorized
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED),
@@ -26,7 +27,8 @@ public enum ErrorCode {
     NOT_FOUND(HttpStatus.NOT_FOUND),
 
     // 409 Conflict
-    DUPLICATE(HttpStatus.CONFLICT);
+    DUPLICATE(HttpStatus.CONFLICT),
+    DUPLICATE_PASSWORD(HttpStatus.CONFLICT);
 
     private final HttpStatus httpStatus;
 
