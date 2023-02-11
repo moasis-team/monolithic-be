@@ -17,6 +17,7 @@ import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteServi
 import site.moasis.monolithicbe.domain.useraccount.service.UserEmailService;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
@@ -55,6 +56,12 @@ public class UserAccountController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(CommonResponse.success(UserAccountJoinResponseDto.toDto(savedUserAccount), "회원가입 완료"));
 	}
 
+	@PutMapping("/password")
+	public ResponseEntity<CommonResponse<?>> changePassword(@RequestBody String newPassword) {
+		UserAccount userAccount = userAccountWriteService.changePassword(newPassword);
+		return ResponseEntity.ok(CommonResponse.success(UserAccountJoinResponseDto.toDto(userAccount), "비밀번호 변경 완료"));
+	}
+
 	@PatchMapping("/token")
 	public ResponseEntity<CommonResponse<?>> reIssueToken(@RequestHeader HttpHeaders headers, @CookieValue(name = "refreshToken") String refreshToken) {
 		String accessToken = TokenManager.getTokenFromHeader(headers);
@@ -76,7 +83,24 @@ public class UserAccountController {
 	public ResponseEntity<CommonResponse<?>> certificateCode(@RequestBody EmailCertificationRequestDto emailCertificationRequestDto) {
 		userEmailService.certificate(emailCertificationRequestDto.email(), emailCertificationRequestDto.code());
 		return ResponseEntity.ok(CommonResponse.success("이메일 인증 완료"));
+	}
 
+	@PostMapping("/auth/reset-url")
+	public ResponseEntity<CommonResponse<?>> getResetPasswordUrl(@RequestBody ResetPasswordRequestDto resetPasswordRequestDto) {
+		userEmailService.sendResetUrl(resetPasswordRequestDto);
+		return ResponseEntity.ok(CommonResponse.success(null));
+	}
+
+	@PostMapping("/auth/reset/{reset-url}")
+	public ResponseEntity<CommonResponse<?>> certificateReset(
+			@PathVariable("reset-url") String url,
+			@RequestBody ResetCertificationRequestDto resetCertificationRequestDto) {
+		userEmailService.certificateResetUrl(UUID.fromString(url), resetCertificationRequestDto.email());
+		UserAccount userAccount = userAccountWriteService.changePasswordWithEmail(
+				resetCertificationRequestDto.email(),
+				resetCertificationRequestDto.password()
+		);
+		return ResponseEntity.ok(CommonResponse.success(UserAccountJoinResponseDto.toDto(userAccount), "비밀번호 변경 완료"));
 	}
 
 	@PatchMapping("/logout")
