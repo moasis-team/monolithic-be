@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.TokenManager;
+import site.moasis.monolithicbe.domain.useraccount.UserAccountInfo;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountReadService;
 import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteService;
@@ -120,5 +121,11 @@ public class UserAccountController {
 	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId, @RequestBody UserAccountUpdateRequestDto userAccountUpdateRequestDto) {
 		this.userAccountWriteService.updateUserAccount(userId, userAccountUpdateRequestDto);
 		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정을 업데이트했습니다."));
+	}
+
+	@GetMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId) {
+		UserAccountInfo userAccountInfo = this.userAccountReadService.findUserAccount(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(userAccountInfo, userId + " 계정정보 조회에 성공했습니다."));
 	}
 }
