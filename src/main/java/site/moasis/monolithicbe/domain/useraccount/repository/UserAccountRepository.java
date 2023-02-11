@@ -16,4 +16,5 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, UUID> 
 	boolean existsByEmail(String email);
 	Optional<UserAccount> findByRefreshToken(String refreshToken);
 	Optional<UserAccount> findByName(String name);
+	void deleteByEmail(String email);
 }

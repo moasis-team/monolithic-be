@@ -17,6 +17,7 @@ import site.moasis.monolithicbe.domain.useraccount.service.UserAccountWriteServi
 import site.moasis.monolithicbe.domain.useraccount.service.UserEmailService;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 
@@ -107,5 +108,17 @@ public class UserAccountController {
 	public boolean loginCallBack(){
 		System.out.println("로그인 성공");
 		return true;
+	}
+
+	@DeleteMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> deleteUser(@PathVariable("userId") UUID userId) {
+		this.userAccountWriteService.deleteUserAccount(userId);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정 삭제에 성공했습니다"));
+	}
+
+	@PatchMapping("/{userId}")
+	public ResponseEntity<CommonResponse<?>> updateUser(@PathVariable("userId") UUID userId, @RequestBody UserAccountUpdateRequestDto userAccountUpdateRequestDto) {
+		this.userAccountWriteService.updateUserAccount(userId, userAccountUpdateRequestDto);
+		return ResponseEntity.status(HttpStatus.OK).body(CommonResponse.success(null, userId + " 계정을 업데이트했습니다."));
 	}
 }
