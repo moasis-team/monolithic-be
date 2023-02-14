@@ -1,44 +1,51 @@
 package site.moasis.monolithicbe.domain.article.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.moasis.monolithicbe.common.exception.BusinessException;
+import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.article.dto.ArticleRequest;
 import site.moasis.monolithicbe.domain.article.entity.Article;
 import site.moasis.monolithicbe.domain.article.repository.ArticleRepository;
+import site.moasis.monolithicbe.domain.article.service.ArticleCommand.CreateCommand;
 
+import java.util.List;
 import java.util.UUID;
-
-import static site.moasis.monolithicbe.domain.article.dto.ArticleDto.*;
-import static site.moasis.monolithicbe.domain.article.entity.Article.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class ArticleWriteService {
 
-    private static ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
 
-    public void createArticle(articleCreateDto articleCreateDto) {
-        Article articleEntity = builder()
-                .content(articleCreateDto.content())
-                .articleId(articleCreateDto.articleId())
-                .userId(articleCreateDto.userId())
+    public Article createArticle(CreateCommand createCommand) {
+        var article = Article.builder()
+                .userId(createCommand.userId)
+                .title(createCommand.title)
+                .content(createCommand.content)
                 .build();
-        articleRepository.save(articleEntity);
+        return articleRepository.save(article);
+
     }
 
-    public static UUID deleteOne(UUID articleId) {
-        articleRepository.findById(articleId).orElseThrow(EntityNotFoundException::new);
+    public UUID deleteOne(UUID articleId) {
+        articleRepository.findById(articleId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND,
+                "article.byId", List.of(articleId.toString())));
         articleRepository.deleteById(articleId);
         return articleId;
     }
 
-    public void updateArticle(UUID userId,UUID articleId, ArticleRequest articleRequest) {
-        articleRepository.findById(userId);
+    public void updateArticle(UUID articleId, ArticleRequest articleRequest) {
+        var article = articleRepository.findById(articleId).orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND,
+                "article.byId", List.of(articleId.toString())));
+        article.setTitle(articleRequest.title());
+        article.setContent(articleRequest.content());
     }
+
 }
+
 
 

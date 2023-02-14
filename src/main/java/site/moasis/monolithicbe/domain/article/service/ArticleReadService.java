@@ -8,53 +8,47 @@ import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.domain.article.entity.Article;
 import site.moasis.monolithicbe.domain.article.repository.ArticleRepository;
 
-
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static site.moasis.monolithicbe.domain.article.dto.ArticleDto.*;
+import static site.moasis.monolithicbe.domain.article.dto.ArticleDto.ArticleOneDto;
+import static site.moasis.monolithicbe.domain.article.dto.ArticleDto.ArticleResponseDto;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ArticleReadService {
-    private static ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
 
-    public ArticleReadService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
+    public List<Article> searchArticles() {
+
+        return articleRepository.findAll();
     }
 
-    public static articleResponseDto toDto(List<Article> article){
-        return new articleResponseDto(article);
+    private ArticleResponseDto toDto(List<Article> articles) {
+        return new ArticleResponseDto(articles);
     }
 
-    public articleResponseDto searchAll() {
-        return new articleResponseDto(articleRepository.selectAll());
+    public ArticleOneDto searchOne(UUID articleId) {
+        Article article = articleRepository.findById(articleId).
+                orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND,
+                        "article.byId", List.of(articleId.toString())));
+        articleRepository.updateView(articleId);
+        return new ArticleOneDto(article);
     }
 
-    public articleOneDto searchOne(UUID articleId) {
-        return new articleOneDto(Optional.ofNullable(articleRepository.findById(articleId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND))));
+    public ArticleResponseDto searchByUserId(UUID userId) {
+        return toDto(articleRepository.findByUserIdContaining(userId));
     }
 
-    public articleResponseDto searchByUserId(UUID userId) {
-        return toDto(articleRepository.findByUserId(userId));
+    public ArticleResponseDto searchBytitle(String title) {
+        return toDto(articleRepository.findByTitleContaining(title));
     }
 
-    public articleResponseDto searchBytitle(String title) {
-        return toDto(articleRepository.findByTitle(title));
-    }
-
-    public articleResponseDto searchBycontent(String content) {
-        return toDto(articleRepository.findByContent(content));
+    public ArticleResponseDto searchBycontent(String content) {
+        return toDto(articleRepository.findByContentContaining(content));
     }
 }
-
-//    public long getArticleCount() {
-//        return articleRepository.count();
-//    }
-//}
 
 
 
