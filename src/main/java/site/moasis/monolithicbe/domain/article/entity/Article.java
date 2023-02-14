@@ -5,62 +5,54 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import site.moasis.monolithicbe.domain.common.DateTimeEntity;
 
-import java.util.Objects;
 import java.util.UUID;
 
 
 @Getter
 @ToString(callSuper = true)
-@Table(indexes = {
-        @Index(columnList = "title"),
-        @Index(columnList = "createdAt"),
-        @Index(columnList = "createdBy")
-})
 
 @Entity
-public class Article extends AuditingFields {
+public class Article extends DateTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private String userId;
-
+    @Column
     @Setter
+    private UUID userId;
     @Column(nullable = false)
-    private String articleId;
-
     @Setter
-    @Column(nullable = false)
     private String title;   // 제목
 
-    @Setter
     @Column(nullable = false, length = 10000)
+    @Setter
     private String content; // 본문
-
-//    @Setter
-//    @Column(nullable = false)
-//    private UUID count;     // 조회수
+    @Column(nullable = false)
+    private Long view;     // 조회수
 
 
-    protected Article() {}
+    protected Article() {
+    }
+
     @Builder
-    private Article(String userId, String articleId, String title, String content){
+    public Article(UUID userId, String title, String content) {
         this.userId = userId;
         this.title = title;
         this.content = content;
-        this.articleId = articleId;
+        this.view = 0L;
+
     }
+
+    public static Article of(UUID userId, String title, String content) {
+        return new Article(userId, title, content);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Article that)) return false;
         return this.getId() != null && this.getId().equals(that.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.getId());
     }
 
 }
