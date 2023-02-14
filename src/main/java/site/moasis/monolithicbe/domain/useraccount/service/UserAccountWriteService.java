@@ -19,7 +19,6 @@ import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
 import site.moasis.monolithicbe.domain.useraccount.repository.UserAccountRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
@@ -28,7 +27,7 @@ import static site.moasis.monolithicbe.domain.useraccount.dto.UserAccountDto.*;
 @Transactional
 @Service
 public class UserAccountWriteService {
-//	private final Logger logger = LoggerFactory.getLogger(UserAccountWriteService.class);
+	private final Logger logger = LoggerFactory.getLogger(UserAccountWriteService.class);
 
 	private final AccessTokenManager accessTokenManager;
 	private final UserAccountRepository userAccountRepository;
@@ -38,7 +37,7 @@ public class UserAccountWriteService {
 
 	private void checkDuplicatedEmail(String email){
 		if(userAccountRepository.existsByEmail(email)){
-			throw new BusinessException(ErrorCode.DUPLICATE, "user.byEmail", List.of(email));
+			throw new BusinessException(ErrorCode.DUPLICATE);
 		};
 	}
 	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
@@ -65,7 +64,7 @@ public class UserAccountWriteService {
 			authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 		} catch (BadCredentialsException e) {
-			throw new BusinessException(ErrorCode.INVALID_PARAMETER, "user.byCredential", null);
+			throw new BusinessException(ErrorCode.INVALID_PARAMETER);
 		}
 
 		String refreshToken = refreshTokenManager.createToken(authentication);
@@ -86,12 +85,12 @@ public class UserAccountWriteService {
 	public ReissueTokenResponseDto reissueToken(String accessToken, String refreshToken){
 
 		if(accessTokenManager.validateToken(accessToken)){
-//			logger.info("아직 엑세스토큰이 유효합니다");
-			throw new BusinessException(ErrorCode.FORBIDDEN, "user.byValidAccessToken", null);
+			logger.info("아직 엑세스토큰이 유효합니다");
+			throw new BusinessException(ErrorCode.FORBIDDEN);
 		}
 		if(!refreshTokenManager.validateToken(refreshToken)){
-//			logger.info("리프레쉬 토큰이 유효하지 않습니다");
-			throw new BusinessException(ErrorCode.FORBIDDEN, "user.byInvalidRefreshToken", null);
+			logger.info("리프레쉬 토큰이 유효하지 않습니다");
+			throw new BusinessException(ErrorCode.FORBIDDEN);
 		}
 
 		Optional<UserAccount> userAccountOptional = this.userAccountRepository.findByRefreshToken(refreshToken);

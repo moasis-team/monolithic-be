@@ -11,7 +11,6 @@ import site.moasis.monolithicbe.common.exception.BusinessException;
 import site.moasis.monolithicbe.common.exception.ErrorCode;
 import site.moasis.monolithicbe.configuration.AppProperties;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,7 +36,7 @@ public class UserEmailService {
             mimeMessageHelper.setText(EMAIL_CERTIFICATION_MAIL_CONTENT_PREFIX + code + EMAIL_CERTIFICATION_MAIL_CONTENT_POSTFIX, true);
             javaMailSender.send(mimeMessage);
         } catch (Exception e) {
-            throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR, "user.byEmail", List.of(email));
+            throw new BusinessException(ErrorCode.INTERNAL_SERVER_ERROR);
         }
         log.info("사용자 이메일={}, 발급된 코드={}", email, code);
         codeMap.put(email, code);
@@ -45,7 +44,7 @@ public class UserEmailService {
 
     public void certificate(String email, int code) {
         if (!codeMap.get(email).equals(code)) {
-            throw new BusinessException(ErrorCode.CODE_MISMATCH, "user.byCode", List.of(email));
+            throw new BusinessException(ErrorCode.CODE_MISMATCH);
         }
     }
 

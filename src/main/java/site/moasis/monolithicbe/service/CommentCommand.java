@@ -15,6 +15,8 @@ public class CommentCommand {
     @Getter
     @EqualsAndHashCode(callSuper = false)
     public static class RegisterCommentCommand extends SelfValidating<RegisterCommentCommand> {
+        @NotNull
+        private UUID userId;
 
         @NotNull
         private UUID articleId;
@@ -24,7 +26,8 @@ public class CommentCommand {
         private String content;
 
         @Builder
-        public RegisterCommentCommand(UUID articleId, String content) {
+        public RegisterCommentCommand(UUID userId, UUID articleId, String content) {
+            this.userId = userId;
             this.articleId = articleId;
             this.content = content;
             validateSelf();

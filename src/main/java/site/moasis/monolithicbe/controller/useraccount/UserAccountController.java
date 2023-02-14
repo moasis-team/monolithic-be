@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import site.moasis.monolithicbe.controller.common.CommonResponse;
 import site.moasis.monolithicbe.domain.useraccount.TokenManager;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
@@ -94,18 +93,5 @@ public class UserAccountController {
 		return ResponseEntity.status(HttpStatus.OK)
 				.header(HttpHeaders.SET_COOKIE, responseCookie.toString())
 				.body(CommonResponse.success(null, "로그인 완료"));
-	}
-
-	@GetMapping("/login-form")
-	public ModelAndView loginForm(){
-		ModelAndView loginPage = new ModelAndView();
-		loginPage.setViewName("login.html");
-		return loginPage;
-	}
-
-	@GetMapping("/authorization/success")
-	public boolean loginCallBack(){
-		System.out.println("로그인 성공");
-		return true;
 	}
 }
