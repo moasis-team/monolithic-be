@@ -55,4 +55,8 @@ public class UserAccount {
 	public void changeRefreshToken(String refreshToken){
 		this.refreshToken = refreshToken;
 	}
+
+	public void changePassword(String password) {
+		this.password = password;
+	}
 }

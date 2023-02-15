@@ -1,6 +1,7 @@
 package site.moasis.monolithicbe.domain.useraccount.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.NonNull;
 import site.moasis.monolithicbe.domain.useraccount.UserRole;
 import site.moasis.monolithicbe.domain.useraccount.entity.UserAccount;
@@ -60,4 +61,15 @@ public record UserAccountDto() {
 		}
 	}
 
+	public record ResetPasswordRequestDto(
+			@NotBlank String email,
+			@NotNull String phoneNumber
+	) {
+	}
+
+	public record ResetCertificationRequestDto(
+			@NotBlank String email,
+			@NotBlank String password
+	) {
+	}
 }

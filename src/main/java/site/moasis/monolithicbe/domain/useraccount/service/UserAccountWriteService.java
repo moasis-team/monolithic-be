@@ -35,14 +35,10 @@ public class UserAccountWriteService {
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	private final RefreshTokenManager refreshTokenManager;
+	private final UserAccountReadService userAccountReadService;
 
-	private void checkDuplicatedEmail(String email){
-		if(userAccountRepository.existsByEmail(email)){
-			throw new BusinessException(ErrorCode.DUPLICATE, "user.byEmail", List.of(email));
-		};
-	}
 	public UserAccount signUp(UserAccountJoinRequestDto userAccountJoinRequestDto) {
-		checkDuplicatedEmail(userAccountJoinRequestDto.email());
+		userAccountReadService.checkDuplicatedEmail(userAccountJoinRequestDto.email());
 
 		UserAccount userAccount = UserAccount.create(
 				userAccountJoinRequestDto.email(),
@@ -121,4 +117,22 @@ public class UserAccountWriteService {
 			throw new BusinessException(ErrorCode.NOT_FOUND);
 		});
 	}
+
+	public UserAccount changePassword(String newPassword) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		return changePasswordWithEmail(email, newPassword);
+	}
+
+	public UserAccount changePasswordWithEmail(String email, String newPassword) {
+		UserAccount user = userAccountRepository.findByEmail(email).orElseThrow();
+
+		String encodedPassword = passwordEncoder.encode(newPassword);
+		if (user.getPassword().equals(encodedPassword)) {
+			throw new BusinessException(ErrorCode.DUPLICATE_PASSWORD);
+		}
+
+		user.changePassword(encodedPassword);
+		return user;
+	}
+
 }
